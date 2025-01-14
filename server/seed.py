@@ -69,13 +69,13 @@ if __name__ == '__main__':
             book = rc(books)
             patron = rc(patrons)
             
-            # Generate borrow date as a random date between 1 year ago and today
+            
             borrow_date = fake.date_between(start_date="-1y", end_date="today")
             
-            # Generate due date as a random date between borrow date and today
+            
             due_date = fake.date_between(start_date=borrow_date, end_date=(borrow_date + timedelta(days=30)))
             
-            # Optionally set return date to None or a random date between borrow date and today
+            
             return_date = fake.random_element(elements=(None, fake.date_between(start_date=borrow_date, end_date=due_date)))
             
             borrowing = Borrowing(
