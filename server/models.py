@@ -1,6 +1,8 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
+from datetime import date, datetime, timedelta
+import re
 
 from config import db
 
@@ -8,7 +10,7 @@ class Author(db.Model, SerializerMixin):
     __tablename__ = "authors"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullable=False)
+    name = db.Column(db.String)
 
     books = db.relationship("Book", back_populates="author", cascade="all, delete-orphan")
     genres = association_proxy("books", "genre")
@@ -120,20 +122,25 @@ class Borrowing(db.Model, SerializerMixin):
 
     @validates('borrow_date')
     def validate_borrow_date(self, key, borrow_date):
-        if borrow_date > datetime.now():
+        if borrow_date is None:
+            raise ValueError('Borrow date cannot be None')
+        if borrow_date > date.today():
             raise ValueError('Borrow date cannot be in the future')
         return borrow_date
 
     @validates('due_date', 'return_date')
     def validate_dates(self, key, date):
-    if key == 'due_date' and date <= self.borrow_date:
-        raise ValueError("Due date must be after borrow date.")
-    if key == 'due_date' and date > self.borrow_date + timedelta(days=30):
-        raise ValueError("Due date cannot exceed 30 days from borrow date")
-    if key == 'return_date':
-        if date and date < self.borrow_date:
-            raise ValueError("Return date must be after borrow date.")
-    return date
+        if key == 'due_date':
+            if self.borrow_date is None:
+                raise ValueError("Borrow date must be set before due date.")
+            if date <= self.borrow_date:
+                raise ValueError("Due date must be after borrow date.")
+            if date > self.borrow_date + timedelta(days=30):
+                raise ValueError("Due date cannot exceed 30 days from borrow date")
+        if key == 'return_date':
+            if date and date < self.borrow_date:
+                raise ValueError("Return date must be after borrow date.")
+        return date
 
 
 
@@ -141,7 +148,7 @@ class Patron(db.Model, SerializerMixin):
     __tablename__ = "patrons"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
+    name = db.Column(db.String, nullable=False)
     email = db.Column(db.String)
 
     borrowings = db.relationship("Borrowing", back_populates="patron")
@@ -158,11 +165,11 @@ class Patron(db.Model, SerializerMixin):
 
     @validates("email")
     def validate_email(self, key, email):
-    if not email:
-        raise ValueError("Email cannot be empty")
-    elif not re.match(r"[^@]+@[^@]+\.[^@]+", email):
-        raise ValueError("Invalid email format")
-    elif Patron.query.filter_by(email=email).first():
-        raise ValueError("Patron with this email already exists")
-    else:
-        return email
+        if not email:
+            raise ValueError("Email cannot be empty")
+        elif not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+            raise ValueError("Invalid email format")
+        elif Patron.query.filter_by(email=email).first():
+            raise ValueError("Patron with this email already exists")
+        else:
+            return email

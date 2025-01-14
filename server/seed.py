@@ -9,11 +9,17 @@ from faker import Faker
 # Local imports
 from app import app
 from models import db, Patron, Author, Book, Borrowing, Genre
+from datetime import date, datetime, timedelta
 
 if __name__ == '__main__':
     fake = Faker()
     with app.app_context():
         print("Starting seed...")
+        Author.query.delete()  
+        Book.query.delete()  
+        Genre.query.delete()  
+        Borrowing.query.delete()  
+        Patron.query.delete()
 
         # Seed authors
         authors = []
@@ -60,11 +66,24 @@ if __name__ == '__main__':
 
         # Seed borrowings
         for _ in range(20):
+            book = rc(books)
+            patron = rc(patrons)
+            
+            # Generate borrow date as a random date between 1 year ago and today
+            borrow_date = fake.date_between(start_date="-1y", end_date="today")
+            
+            # Generate due date as a random date between borrow date and today
+            due_date = fake.date_between(start_date=borrow_date, end_date=(borrow_date + timedelta(days=30)))
+            
+            # Optionally set return date to None or a random date between borrow date and today
+            return_date = fake.random_element(elements=(None, fake.date_between(start_date=borrow_date, end_date=due_date)))
+            
             borrowing = Borrowing(
-                book=rc(books),
-                patron=rc(patrons),
-                due_date=fake.date_between(start_date="-1y", end_date="today"),
-                return_date=fake.random_element(elements=(None, fake.date_between(start_date="-1y", end_date="today")))
+                book=book,
+                patron=patron,
+                borrow_date=borrow_date,
+                due_date=due_date,
+                return_date=return_date
             )
             db.session.add(borrowing)
 
