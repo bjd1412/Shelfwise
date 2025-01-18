@@ -9,6 +9,8 @@ from config import db
 class Author(db.Model, SerializerMixin):
     __tablename__ = "authors"
 
+    serialize_rules = ("-books", "-genres",)
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
 
@@ -33,6 +35,8 @@ class Author(db.Model, SerializerMixin):
 
 class Book(db.Model, SerializerMixin):
     __tablename__ = "books"
+
+    serialize_rules = ("-author", "-borrowings", "-genre",)
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
@@ -69,6 +73,8 @@ class Book(db.Model, SerializerMixin):
 class Genre(db.Model, SerializerMixin):
     __tablename__ = "genres"
 
+    serialize_rules = ("-books", "-authors",)
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
 
@@ -92,6 +98,8 @@ class Genre(db.Model, SerializerMixin):
 
 class Borrowing(db.Model, SerializerMixin):
     __tablename__ = "borrowings"
+
+    serialize_rules = ("-book", "-patron",)
 
     id = db.Column(db.Integer, primary_key=True)
     book_id = db.Column(db.Integer, db.ForeignKey('books.id'), nullable=False, index=True)
@@ -146,6 +154,8 @@ class Borrowing(db.Model, SerializerMixin):
 
 class Patron(db.Model, SerializerMixin):
     __tablename__ = "patrons"
+
+    serialize_rules = ("-borrowings", "-books",)
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
