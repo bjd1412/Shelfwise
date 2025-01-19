@@ -241,22 +241,18 @@ class Borrowings(Resource):
     def post(self):
         data = request.form
 
-        # Validate and parse the due date in MM/DD/YYYY format
         try:
             due_date = datetime.strptime(data["due_date"], "%m/%d/%Y")
         except ValueError:
             return make_response({"Error": "Invalid due date format. Use MM/DD/YYYY."}, 400)
 
-        # Borrow date is today
         borrow_date = datetime.today()
 
-        # Validate the due date
         if due_date <= borrow_date:
             return make_response({"Error": "Due date must be after the borrow date."}, 400)
         if due_date > borrow_date + timedelta(days=30):
             return make_response({"Error": "Due date cannot exceed 30 days from borrow date."}, 400)
 
-        # Lookup book and patron
         book = Book.query.filter_by(title=data["book_title"]).first()
         patron = Patron.query.filter_by(email=data["patron_email"]).first()
 
@@ -265,7 +261,7 @@ class Borrowings(Resource):
         if not patron:
             return make_response({"Error": "Patron not found."}, 404)
 
-        # Create a new borrowing record
+        
         new_borrowing = Borrowing(
             book_id=book.id,
             patron_id=patron.id,
@@ -275,7 +271,7 @@ class Borrowings(Resource):
         db.session.add(new_borrowing)
         db.session.commit()
 
-        # Return response with the borrowing details
+        
         return make_response(new_borrowing.to_dict(), 201)
 
 class Borrowing_ID(Resource):
