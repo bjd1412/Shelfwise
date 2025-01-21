@@ -44,6 +44,7 @@ if __name__ == '__main__':
         for _ in range(20):
             book = Book(
                 title=fake.catch_phrase(),
+                summary=fake.text(max_nb_chars=1000),
                 author=rc(authors),
                 genre=rc(genres)
             )

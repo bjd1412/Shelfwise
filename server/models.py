@@ -40,6 +40,7 @@ class Book(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
+    summary = db.Column(db.String)
     author_id = db.Column(db.Integer, db.ForeignKey("authors.id"), index=True)
     genre_id = db.Column(db.Integer, db.ForeignKey("genres.id"), index=True)
 
@@ -55,12 +56,22 @@ class Book(db.Model, SerializerMixin):
     def validate_title(self, key, title):
         if not title.strip():
             raise ValueError("Title cannot be empty")
-        elif len(title) > 4000:
-            raise ValueError("Title cannot exceed 4,000 words")
+        elif len(title) > 100:
+            raise ValueError("Title cannot exceed 100 characters")
         elif Book.query.filter(db.func.lower(Book.title) == title.lower()).first():
             raise ValueError("Book already exists with this title")
         else:
             return title
+
+    @validates("summary")
+    def validate_summary(self, key, summary):
+        if not summary.strip():
+            raise ValueError("Summary cannot be empty")
+        elif len(summary) > 1500:
+            raise ValueError("Summary cannot exceed 1,500 characters")
+        else:
+            return summary
+        
 
     @validates('author_id')
     def validate_author_id(self, key, author_id):
