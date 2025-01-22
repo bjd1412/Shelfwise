@@ -342,6 +342,14 @@ class PatronBorrows(Resource):
         ]
         return make_response(borrowings, 200)
 
+class GenresAuthorsBooks(Resource):
+    
+    def get(self, genre_id, author_id):
+        books = Book.query.filter_by(genre_id=genre_id, author_id=author_id).all()
+        if not books:
+            return make_response({"Error": "No books found for this genre and author"}, 404)
+        return make_response([book.to_dict() for book in books], 200)
+
 
 
 
@@ -374,6 +382,7 @@ api.add_resource(Books, "/books")
 api.add_resource(Book_ID, "/books/<int:id>")
 api.add_resource(Genres, "/genres")
 api.add_resource(GenreAuthors, '/genres/<int:genre_id>/authors')
+api.add_resource(GenreAuthorBooks, '/genres/<int:genre_id>/authors/<int:author_id>/books')
 api.add_resource(Genre_ID, "/genres/<int:id>")
 api.add_resource(Borrowings, "/borrowings")
 api.add_resource(Borrowing_ID, "/borrowings/<int:id>")
