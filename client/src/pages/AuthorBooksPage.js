@@ -1,17 +1,21 @@
 import React, {useEffect} from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
-import { fetchAuthorBooks } from "../redux/actions/booksActions"
+import { fetchAuthorBooks, fetchGenreAuthorBooks } from "../redux/actions/booksActions"
 import List from "../components/List"
 
 function AuthorsBooksPage () {
     const dispatch = useDispatch()
     const {books, status, error } = useSelector(state => state.books )
-    const {authorId} = useParams()
+    const {authorId, genreId} = useParams()
 
     useEffect(() => {
-        dispatch(fetchAuthorBooks(authorId))
-    }, [dispatch, authorId])
+        if (genreId) {
+            dispatch(fetchGenreAuthorBooks(genreId, authorId))
+        }else {
+            dispatch(fetchAuthorBooks(authorId))
+        }
+    }, [dispatch, authorId, genreId])
 
     if (status === "loading") {
         return <div>...Loading books</div>
@@ -24,8 +28,8 @@ function AuthorsBooksPage () {
     return (
         <div>
             <h3>Book List</h3>
-            <List items={books} getDisplayText={book => book.title} getLink={book => `/authors/${authorId}/books/${book.id}`}/>
-
+            <List items={books} getDisplayText={book => book.title} 
+            getLink={book => genreId ? `/genres/${genreId}/authors/${authorId}/books/${book.id}` : `/authors/${authorId}/books/${book.id}`}/>
         </div>
     )
 }

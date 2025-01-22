@@ -3,13 +3,17 @@ import { createSlice } from "@reduxjs/toolkit";
 const booksSlice = createSlice({
     name: "books",
     initialState: {
-        books: [], 
+        books: [],
+        bookDetails: null, 
         status: "idle",
         error: null
     },
     reducers: {
         setBooks: (state, action) => {
             state.books = action.payload
+        },
+        setBookDetails: (state, action) => {
+            state.bookDetails = action.payload
         },
         setBooksStatus: (state, action) => {
             state.status = action.payload
@@ -20,5 +24,5 @@ const booksSlice = createSlice({
     } ,
 })
 
-export const {setBooks, setBooksStatus, setBooksError} = booksSlice.actions
+export const {setBooks, setBookDetails, setBooksStatus, setBooksError} = booksSlice.actions
 export default booksSlice.reducer
