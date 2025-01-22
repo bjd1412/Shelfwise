@@ -5,6 +5,8 @@ import Genres from "../pages/Genres"
 import Patrons from "../pages/Patrons"
 import AuthorsBooksPage from "../pages/AuthorBooksPage"
 import GenresAuthorsPage from "../pages/GenresAuthorsPage"
+import BookDetailsPage from "../pages/BookDetailsPage"
+import PatronDetailsPage from "../pages/PatronDetailsPage"
 
 
 
@@ -41,6 +43,18 @@ const routes = [
                 path: "/genres/:genreId/authors/:authorId/books",
                 element: <AuthorsBooksPage/>
             },
+            {
+                path: "/authors/:authorId/books/:bookId",
+                element: <BookDetailsPage/>
+            },
+            {
+                path: "/books/:bookId",
+                element: <BookDetailsPage/>
+            },
+            {
+                path: "/patrons/:patronId",
+                element: <PatronDetailsPage/>
+            }
         ]
     }
 ]

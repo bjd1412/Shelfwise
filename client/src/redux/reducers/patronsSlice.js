@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const patronsSlice = createSlice({
-    name: "patron",
+    name: "patrons",
     initialState: {
         patrons: [],
+        borrowings: [], 
         status: "idle",
         error: null
     },
@@ -18,10 +19,13 @@ const patronsSlice = createSlice({
         setPatronError(state, action) {
             state.error = action.payload
         },
+        setPatronsBorrowings(state, action) {
+            state.borrowings = action.payload
+        }
 
     }
 })
 
-export const {setPatronError, setPatronsStatus, setPatrons} = patronsSlice.actions
+export const {setPatronError, setPatronsStatus, setPatrons, setPatronsBorrowings} = patronsSlice.actions
 
 export default patronsSlice.reducer

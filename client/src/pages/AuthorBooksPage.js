@@ -12,7 +12,7 @@ function AuthorsBooksPage () {
     useEffect(() => {
         if (genreId) {
             dispatch(fetchGenreAuthorBooks(genreId, authorId))
-        }else {
+        }else if (authorId) {
             dispatch(fetchAuthorBooks(authorId))
         }
     }, [dispatch, authorId, genreId])

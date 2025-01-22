@@ -1,4 +1,4 @@
-import { setBooks, setBooksError, setBooksStatus } from "../reducers/booksSlice";
+import { setBooks, setBookDetails, setBooksError, setBooksStatus } from "../reducers/booksSlice";
 
 export const fetchAuthorBooks = (authorId) => (dispatch) => {
 
@@ -57,7 +57,7 @@ export const fetchBookDetails = (bookId) => (dispatch) => {
     })
     .then( book => {
         dispatch(setBooksStatus("succeeded"))
-        dispatch(setBooks(book))
+        dispatch(setBookDetails(book))
     })
     .catch(error => {
         setBooksError(error.toString())
