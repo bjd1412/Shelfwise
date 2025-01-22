@@ -1,6 +1,7 @@
 import React, {useEffect} from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchAuthors } from "../redux/actions/authorsActions"
+import List from "../components/List"
 
 function Authors(){
     const dispatch = useDispatch()
@@ -21,11 +22,7 @@ function Authors(){
     return (
       <div>
         <h3>Authors List</h3>
-        <ul>
-          {authors.map((author) => (
-            <li key={author.id}>{author.name}</li>
-          ))}
-        </ul>
+        <List items={authors} getDisplayText={author => author.name} getLink={author => `/authors/${author.id}/books`}/>
       </div>
     );
 }  
