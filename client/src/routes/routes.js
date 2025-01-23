@@ -48,7 +48,7 @@ const routes = [
                 element: <BookDetailsPage/>
             },
             {
-                path: "/books/:bookId",
+                path: "/genres/:genreId/authors/:authorId/books/:bookId",
                 element: <BookDetailsPage/>
             },
             {

@@ -65,3 +65,24 @@ export const fetchBookDetails = (bookId) => (dispatch) => {
     })
 
 }
+
+export const fetchBooks = () => (dispatch) => {
+    dispatch(setBooksStatus("loading"))
+    dispatch(setBooks([]))
+
+    fetch("/books")
+    .then(res => {
+        if(!res.ok){
+            throw new Error("Failed to fetch books")
+        }
+        return res.json()
+    })
+    .then(books => {
+        dispatch(setBooksStatus("succeeded"))
+        dispatch(setBooks(books))
+    })
+    .catch(error => {
+        dispatch(setBooksStatus("failed"))
+        dispatch(setBooksError(error.toString()))
+    })
+}
