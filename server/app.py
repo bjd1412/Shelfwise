@@ -36,7 +36,7 @@ class Authors(Resource):
             return make_response({"Error": "Validation Error"}, 403)
         db.session.add(new_author)
         db.session.commit()
-        return make_response(new_author.to_dict(), 200)
+        return make_response(new_author.to_dict(), 201)
 
 class Author_ID(Resource):
 
@@ -61,7 +61,7 @@ class Author_ID(Resource):
 class Books(Resource):
 
     def get(self):
-        books = Book.query.all()
+        books = Book.query.order_by(Book.title).all()
         book_list = []
         for book in books:
             book_dict = book.to_dict()
@@ -72,20 +72,26 @@ class Books(Resource):
         data = request.form
         try:
             new_book = Book(
-                title=data["title"],               
+                title=data["title"],
+                summary=data["summary"],
+                author_id=data["author_id"],
+                genre_id=data["genre_id"]               
             )
         except:
             return make_response({"Error": "Validation Error"}, 403)
         db.session.add(new_book)
         db.session.commit()
-        return make_response(new_book.to_dict(), 200)
+        return make_response(new_book.to_dict(), 201)
 
 class Book_ID(Resource):
 
     def get(self, id):
         book = Book.query.filter(Book.id == id).first()
         if book:
-            return make_response(book.to_dict(), 200)
+            book_dict = book.to_dict()
+            book_dict["author"] = book.author.to_dict(only=("id", "name"))
+            book_dict["genre"] = book.genre.to_dict(only=("id", "name"))
+            return make_response(book_dict, 200)
         else:
             return make_response({"Error": "Book not found"}, 404)
 
@@ -135,7 +141,7 @@ class Genres(Resource):
             return make_response({"Error": "Validation Error"}, 403)
         db.session.add(new_genre)
         db.session.commit()
-        return make_response(new_genre.to_dict(), 200) 
+        return make_response(new_genre.to_dict(), 201) 
 
 class Genre_ID(Resource):
 
@@ -192,7 +198,7 @@ class Patrons(Resource):
             return make_response({"Error": "Validation Error"}, 403)
         db.session.add(new_patron)
         db.session.commit()
-        return make_response(new_patron.to_dict(), 200)
+        return make_response(new_patron.to_dict(), 201)
 
 class Patron_ID(Resource):
 
@@ -265,7 +271,6 @@ class Borrowings(Resource):
         new_borrowing = Borrowing(
             book_id=book.id,
             patron_id=patron.id,
-            borrow_date=borrow_date,
             due_date=due_date,
         )
         db.session.add(new_borrowing)
@@ -342,7 +347,7 @@ class PatronBorrows(Resource):
         ]
         return make_response(borrowings, 200)
 
-class GenresAuthorsBooks(Resource):
+class GenreAuthorBooks(Resource):
     
     def get(self, genre_id, author_id):
         books = Book.query.filter_by(genre_id=genre_id, author_id=author_id).all()
@@ -389,7 +394,7 @@ api.add_resource(Borrowing_ID, "/borrowings/<int:id>")
 api.add_resource(Patrons, "/patrons")
 api.add_resource(Patron_ID, "/patrons/<int:id>")
 api.add_resource(PatronBooks, '/patrons/<int:patron_id>/books')
-api.add_resource(PatronBorrows, '/patrons/<int:patron_id>/borrows')
+api.add_resource(PatronBorrows, '/patrons/<int:patron_id>/borrowings')
 
 
 
