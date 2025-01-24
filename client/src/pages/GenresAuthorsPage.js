@@ -24,6 +24,7 @@ function GenresAuthorsPage() {
     return (
         <div>
             <h3>Authors</h3>
+            
             <List items={authors} getDisplayText={author => author.name } getLink={author => `/genres/${genreId}/authors/${author.id}/books`}/>
         </div>
     )

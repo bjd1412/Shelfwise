@@ -2,6 +2,7 @@ import React, {useEffect} from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import { fetchAuthorBooks, fetchGenreAuthorBooks } from "../redux/actions/booksActions"
+import AddBookButton from "../components/AddBookButton"
 import List from "../components/List"
 
 function AuthorsBooksPage () {
@@ -28,6 +29,7 @@ function AuthorsBooksPage () {
     return (
         <div>
             <h3>Book List</h3>
+            <AddBookButton authorId={authorId} genreId={genreId} />
             <List items={books} getDisplayText={book => book.title} 
             getLink={book => genreId ? `/genres/${genreId}/authors/${authorId}/books/${book.id}` : `/authors/${authorId}/books/${book.id}`}/>
         </div>

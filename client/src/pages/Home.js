@@ -1,18 +1,14 @@
+import React from "react";
 
 
 function Home() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Welcome to the Home Page</h1>
+      <p>Explore books and authors</p>
+      
+      
+      
     </div>
   );
 }

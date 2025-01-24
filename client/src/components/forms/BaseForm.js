@@ -1,21 +1,21 @@
 import React from "react";
-import {useFormik} from "formik"
+import { useFormik } from "formik";
 
-function BaseForm({ initialValues, validationSchema, onSubmit, children }) {
+function BaseForm({ initialValues, validationSchema, onSubmit, children, error }) {
     const formik = useFormik({
-        initialValues,
-        validationSchema,
-        onSubmit,
+      initialValues,
+      validationSchema,
+      onSubmit,
     });
-
+  
     return (
-        <form onSubmit={formik.handleSubmit}>
-            {React.Children.map(children, (child) =>
-                React.cloneElement(child, { formik })
+      <form onSubmit={formik.handleSubmit}>
+        {typeof children === "function"
+          ? children(formik, error) 
+          : React.Children.map(children, (child) =>
+              React.cloneElement(child, { formik, error })
             )}
-            <button type="submit">Submit</button>
-        </form>
+      </form>
     );
-}
-
-export default BaseForm
+  }
+export default BaseForm;

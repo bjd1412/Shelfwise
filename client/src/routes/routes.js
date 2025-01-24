@@ -7,6 +7,7 @@ import AuthorsBooksPage from "../pages/AuthorBooksPage"
 import GenresAuthorsPage from "../pages/GenresAuthorsPage"
 import BookDetailsPage from "../pages/BookDetailsPage"
 import PatronDetailsPage from "../pages/PatronDetailsPage"
+import BookFormPage from "../pages/BookFormPage"
 
 
 
@@ -46,6 +47,20 @@ const routes = [
             {
                 path: "/authors/:authorId/books/:bookId",
                 element: <BookDetailsPage/>
+            },
+            {
+                path: "/authors/:authorId/books/new/:authorId",
+                element: <BookFormPage/>
+
+            },
+            {
+                path: "/genres/:genreId/authors/:authorId/books/new/:authorId",
+                element: <BookFormPage/>
+            },
+            {
+                path: "/books/edit/:id",
+                element: <BookFormPage/>
+
             },
             {
                 path: "/genres/:genreId/authors/:authorId/books/:bookId",

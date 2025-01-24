@@ -86,3 +86,73 @@ export const fetchBooks = () => (dispatch) => {
         dispatch(setBooksError(error.toString()))
     })
 }
+
+export const createBook = (bookData) => (dispatch) => {
+    dispatch(setBooksStatus("loading"));  
+
+    
+    const formData = new FormData();
+    formData.append("title", bookData.title);
+    formData.append("summary", bookData.summary);
+    formData.append("author_id", bookData.authorId);  
+    formData.append("genre_id", bookData.genreId);    
+
+    fetch("/books", {
+        method: "POST",
+        body: formData,  
+    })
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error("Failed to create book");
+            }
+            return res.json();
+        })
+        .then((newBook) => {
+            dispatch(setBooksStatus("succeeded"));
+            dispatch(setBooks((books) => [...books, newBook]));  
+        })
+        .catch((error) => {
+            dispatch(setBooksError(error.toString()));
+            dispatch(setBooksStatus("failed"));
+        });
+};
+
+export const updateBook = (bookId, updatedData) => (dispatch) => {
+    dispatch(setBooksStatus("loading"));  
+
+    
+    const formData = new FormData();
+    formData.append("title", updatedData.title);
+    formData.append("summary", updatedData.summary);
+    formData.append("author_id", updatedData.authorId);
+    formData.append("genre_id", updatedData.genreId);
+
+
+    fetch(`/books/${bookId}`, {
+        method: "PATCH",
+        body: formData,  
+    })
+    .then((res) => {
+        if (!res.ok) {
+            throw new Error("Failed to update book");
+        }
+        return res.json();
+    })
+    .then((updatedBook) => {
+        dispatch(setBooksStatus("succeeded"));  
+
+       
+        dispatch(setBookDetails(updatedBook));
+
+        
+        dispatch(setBooks((prevBooks) => 
+            prevBooks.map((book) => 
+                book.id === updatedBook.id ? updatedBook : book
+            )
+        ));
+    })
+    .catch((error) => {
+        dispatch(setBooksError(error.toString()));  
+        dispatch(setBooksStatus("failed")); 
+    });
+};
