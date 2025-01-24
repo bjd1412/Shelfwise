@@ -110,9 +110,47 @@
 
 .error-notification {
   opacity: 1;
-  transition: opacity 1s ease-out;  /* Smooth fade-out */
+  transition: opacity 1s ease-out;  
 }
 
 .error-notification.hidden {
-  opacity: 0;  /* Make error invisible */
+  opacity: 0;  
+}
+
+.list-container {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
+.list-search {
+  margin-bottom: 10px;
+  padding: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+
+.list-item {
+  margin: 5px 0;
+}
+
+
+.list-item a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.list-item a:hover {
+  text-decoration: underline;
 }

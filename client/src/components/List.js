@@ -18,24 +18,19 @@ function List({ items, getDisplayText, getLink }) {
       : [];
   
     return (
-      <div>
+      <div className="list-container">
         <input
           type="text"
+          className="list-search"
           placeholder="Search..."
           value={searchTerm}
           onChange={handleSearchChange}
-          style={{
-            marginBottom: "10px",
-            padding: "5px",
-            width: "100%",
-            boxSizing: "border-box",
-          }}
         />
   
     
-        <ul>
+        <ul className="list">
           {filteredItems.map((item) => (
-            <li key={item.id}>
+            <li key={item.id} className="list-item">
               <Link to={getLink(item)}>{getDisplayText(item)}</Link>
             </li>
           ))}
