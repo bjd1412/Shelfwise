@@ -4,29 +4,28 @@ import { fetchAuthors } from "../redux/actions/authorsActions"
 import List from "../components/List"
 import AddAuthor from "../components/AddAuthor"
 
-function Authors(){
-    const dispatch = useDispatch()
-    const { authors, status, error } = useSelector((state) => state.authors); 
+function Authors() {
+  const dispatch = useDispatch();
+  const { authors, status } = useSelector((state) => state.authors);
 
-    useEffect(() => {
-      dispatch(fetchAuthors());  
-    }, [dispatch]);
-  
-    if (status === 'loading') {
-      return <div>Loading authors...</div>;
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchAuthors());
     }
-  
-    if (status === 'failed') {
-      return <div>Error: {error}</div>;
-    }
-  
-    return (
-      <div>
-        <h3>Authors List</h3>
-        <AddAuthor />
-        <List items={authors} getDisplayText={author => author.name} getLink={author => `/authors/${author.id}/books`}/>
-      </div>
-    );
-}  
+  }, [dispatch, status]);
+
+
+  return (
+    <div>
+      <h3>Authors List</h3>
+      <AddAuthor />
+      <List
+        items={authors}
+        getDisplayText={(author) => author.name}
+        getLink={(author) => `/authors/${author.id}/books`}
+      />
+    </div>
+  );
+}
 
 export default Authors

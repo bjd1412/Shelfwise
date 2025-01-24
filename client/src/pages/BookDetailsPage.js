@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchBookDetails } from "../redux/actions/booksActions";
 
+
 function BookDetailsPage () {
 
     const dispatch = useDispatch()
@@ -28,6 +29,7 @@ function BookDetailsPage () {
 
     return (
         <div>
+            
             <h1>{bookDetails.title}</h1>        
             <p>{bookDetails.summary}</p>
             <span>{bookDetails.genre?.name}</span>

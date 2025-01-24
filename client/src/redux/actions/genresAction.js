@@ -29,7 +29,7 @@ export const fetchGenresAuthor =(genreId) =>(dispatch) => {
     fetch(`/genres/${genreId}/authors`)
     .then(res => {
         if (!res.ok) {
-            
+
             throw new Error("Failed to fetch authors in genre")
         }
         return res.json()
@@ -43,4 +43,32 @@ export const fetchGenresAuthor =(genreId) =>(dispatch) => {
         dispatch(setAuthorsStatus('failed'))
     })
 
+}
+
+export const createGenres = (genreData) => (dispatch, getState) => {
+    dispatch(setGenresStatus("loading"))
+
+    const formData = new FormData()
+    formData.append("name", genreData.name)
+
+    return fetch("/genres", {
+        method: "POST",
+        body: formData,
+    })
+    .then(res => {
+        if (!res.ok){
+            throw new Error("Genre already exists")
+        }
+        return res.json()
+    })
+    .then(newGenre => {
+        dispatch(setGenresStatus("succeeded"))
+        const currentGenres = getState().genres.genres
+        dispatch(setGenres([...currentGenres, newGenre]))
+    })
+    .catch(error => {
+        dispatch(setGenresStatus("failed"))
+        dispatch(setGenresError(error.toString()))
+        throw error
+    })
 }

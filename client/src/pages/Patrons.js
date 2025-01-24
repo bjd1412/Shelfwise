@@ -2,26 +2,23 @@ import React, { useEffect } from "react";
 import List from "../components/List";
 import { fetchPatrons } from "../redux/actions/patronsAction";
 import { useDispatch, useSelector } from "react-redux";
+import AddPatron from "../components/AddPatron";
 
 function Patrons() {
     const dispatch = useDispatch()
-    const {patrons, status, error} = useSelector(state => state.patrons)
+    const {patrons, status} = useSelector(state => state.patrons)
 
     useEffect(() => {
-        dispatch(fetchPatrons())
-    }, [dispatch])
+        if (status === "idle") {
+              dispatch(fetchPatrons());
+            }
+    }, [dispatch, status])
 
-    if( status === "loading") {
-        return <div>Loading patrons...</div>
-    }
-
-    if (status === "failed") {
-        return <div>Error: {error}</div>
-    }
 
     return (
         <div>
             <h3>Patrons</h3>
+            <AddPatron/>
             <List items={patrons} getDisplayText={patron => patron.name} getLink={patron => `/patrons/${patron.id}`} />
         </div>
     )

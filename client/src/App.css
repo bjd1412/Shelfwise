@@ -107,3 +107,12 @@
   font-size: 16px;
   color: #a94442;
 }
+
+.error-notification {
+  opacity: 1;
+  transition: opacity 1s ease-out;  /* Smooth fade-out */
+}
+
+.error-notification.hidden {
+  opacity: 0;  /* Make error invisible */
+}

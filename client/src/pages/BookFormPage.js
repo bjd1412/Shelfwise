@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import BookForm from "../components/forms/BookForm";
 import { fetchAuthors } from "../redux/actions/authorsActions";
 import { fetchGenres } from "../redux/actions/genresAction";
-import { createBook, updateBook } from "../redux/actions/booksActions";
+import { createBook, updateBook} from "../redux/actions/booksActions";
 
 function BookFormPage() {
     const { authorId } = useParams();

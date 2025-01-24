@@ -28,6 +28,9 @@ class Authors(Resource):
     
     def post(self):
         data = request.form
+        author = Author.query.filter_by(name=data["name"]).first()
+        if author:
+            return make_response({"error": "Author already exists."}, 409)
         try:
             new_author = Author(
                 name=data["name"],

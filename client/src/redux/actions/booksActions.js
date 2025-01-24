@@ -87,7 +87,7 @@ export const fetchBooks = () => (dispatch) => {
     })
 }
 
-export const createBook = (bookData) => (dispatch) => {
+export const createBook = (bookData) => (dispatch, getState) => {
     dispatch(setBooksStatus("loading"));  
 
     
@@ -109,7 +109,8 @@ export const createBook = (bookData) => (dispatch) => {
         })
         .then((newBook) => {
             dispatch(setBooksStatus("succeeded"));
-            dispatch(setBooks((books) => [...books, newBook]));  
+            const currentBooks = getState().books.books
+            dispatch(setBooks([...currentBooks, newBook]));  
         })
         .catch((error) => {
             dispatch(setBooksError(error.toString()));

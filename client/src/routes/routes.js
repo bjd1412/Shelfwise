@@ -57,11 +57,7 @@ const routes = [
                 path: "/genres/:genreId/authors/:authorId/books/new/:authorId",
                 element: <BookFormPage/>
             },
-            {
-                path: "/books/edit/:id",
-                element: <BookFormPage/>
-
-            },
+        
             {
                 path: "/genres/:genreId/authors/:authorId/books/:bookId",
                 element: <BookDetailsPage/>

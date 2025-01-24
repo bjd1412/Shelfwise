@@ -2,27 +2,24 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { fetchGenres } from "../redux/actions/genresAction";
 import List from "../components/List";
+import AddGenre from "../components/AddGenre";
 
 function Genres () {
     const dispatch = useDispatch()
-    const {genres, status, error} = useSelector( state => state.genres)
+    const {genres, status} = useSelector( state => state.genres)
 
     useEffect( () => {
-        dispatch(fetchGenres())
-    }, [dispatch])
+         if (status === "idle") {
+              dispatch(fetchGenres());
+            }
+    }, [dispatch, status])
 
-    if (status === 'loading') {
-        return <div>Loading authors...</div>;
-      }
-    
-      if (status === 'failed') {
-        return <div>Error: {error}</div>;
-      }
     
       return (
         <div>
           <h3>Genres List</h3>
-          <List items={genres} getDisplayText={genre => genre.name} getLink={genre => `/genres/${genre.id}/authors`}/>
+          <AddGenre/>
+          <List items={genres} getDisplayText={genre => genre.name} getLink={genre => `/genres/${genre.id}/authors`}/>        
         </div>
       );
   }  

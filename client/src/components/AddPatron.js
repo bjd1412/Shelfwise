@@ -1,16 +1,15 @@
-
 import React, { useState } from "react";
-import AuthorForm from "./forms/AuthorForm";
+import PatronForm from "./forms/PatronForm";
 import { useDispatch, useSelector } from "react-redux";
-import { createAuthors } from "../redux/actions/authorsActions";
+import { createPatrons } from "../redux/actions/patronsAction";
 import "../App.css"
 
 
-const AddAuthor = () => {
+const AddPatron = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [formError, setFormError] = useState(null);
   const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.authors.status === "loading");
+  const isLoading = useSelector((state) => state.patrons.status === "loading");
 
   const handleOpenModal = () => {
     setIsModalVisible(true);
@@ -22,18 +21,18 @@ const AddAuthor = () => {
     setFormError(null);
   };
 
-  const handleSubmit = (authorData) => {
+  const handleSubmit = (patronData) => {
     setFormError(null);
 
-    dispatch(createAuthors(authorData))
+    dispatch(createPatrons(patronData))
       .then(() => {
         setIsModalVisible(false); 
       })
       .catch((error) => {
         if (error.message.includes("already exists")) {
-          setFormError("Author already exists!"); 
+          setFormError("Patron already exists!"); 
         } else {
-          setFormError("Failed to add author. Please try again.");
+          setFormError("Failed to add patron. Please try again.");
         }
       });
   };
@@ -41,13 +40,13 @@ const AddAuthor = () => {
   return (
     <>
       <button className="add-author-button" onClick={handleOpenModal}>
-        Add New Author
+        Add New Patron
       </button>
 
       {isModalVisible && (
         <div className="modal-overlay" onClick={handleCloseModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3 className="modal-title">Add a New Author</h3>
+            <h3 className="modal-title">Add a New Patron</h3>
 
             {formError && (
               <div className="error-notification">
@@ -56,7 +55,7 @@ const AddAuthor = () => {
               </div>
             )}
 
-            <AuthorForm
+            <PatronForm
               onSubmit={handleSubmit}
               isLoading={isLoading}
             />
@@ -71,4 +70,4 @@ const AddAuthor = () => {
   );
 };
 
-export default AddAuthor;
+export default AddPatron;

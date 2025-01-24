@@ -46,4 +46,36 @@ export const fetchPatronBorrowing = (patronId) => (dispatch) => {
 
 }
 
+  export const createPatrons = (patronData) => (dispatch, getState) => {
+    dispatch(setPatronsStatus("loading")); 
+  
+    const formData = new FormData();
+    formData.append("name", patronData.name);
+    formData.append("email", patronData.email)
+  
+    return fetch("/patrons", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Patron already exists"); 
+        }
+        return res.json();  
+      })
+      .then((newPatron) => {
+        dispatch(setPatronsStatus("succeeded"));  
+       
+        const currentPatrons = getState().patrons.patrons;
+  
+        
+        dispatch(setPatrons([...currentPatrons, newPatron]));
+      })
+      .catch((error) => {
+        dispatch(setPatronError(error.toString()));  
+        dispatch(setPatronsStatus("failed"));  
+        throw error; 
+      });
+  };
+  
 

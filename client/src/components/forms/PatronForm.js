@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import BaseForm from "./BaseForm";  
 import TextField from "./TextField";  
 
-function PatronForm({ onSubmit }) {
+function PatronForm({ onSubmit, isLoading, error }) {
   
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
@@ -21,11 +21,19 @@ function PatronForm({ onSubmit }) {
   return (
     <div>
       <h3>Add a New Patron</h3>
+      {error && (
+          <div className="error-notification">
+            <span className="error-icon">&#x2191;</span>
+            <span className="error-message">{error}</span>
+          </div>
+        )}
 
-      <BaseForm initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>   
-        <TextField name="name" label="Name" />     
-        <TextField name="email" label="Email" type="email" />       
-        <button type="submit">Submit</button>
+      <BaseForm initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit} error={error}>   
+        <TextField name="name" label="Name" placeholder="Patron's name..." />     
+        <TextField name="email" label="Email" type="email" placeholder="Patrons email..."/>       
+        <button type="submit" disabled={isLoading}>
+        {isLoading ? "Adding..." : "Add Patron"}
+        </button>
       </BaseForm>
     </div>
   );
