@@ -1,37 +1,24 @@
 import React, {useEffect} from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
-import { fetchAuthorBooks, fetchGenreAuthorBooks } from "../redux/actions/booksActions"
+import { useOutletContext, useParams } from "react-router-dom"
 import AddBookButton from "../components/AddBookButton"
 import List from "../components/List"
 
 function AuthorsBooksPage () {
-    const dispatch = useDispatch()
-    const {books, status, error } = useSelector(state => state.books )
+
+    const {authors} = useOutletContext()
     const {authorId, genreId} = useParams()
 
-    useEffect(() => {
-        if (genreId) {
-            dispatch(fetchGenreAuthorBooks(genreId, authorId))
-        }else if (authorId) {
-            dispatch(fetchAuthorBooks(authorId))
-        }
-    }, [dispatch, authorId, genreId])
+    const author = authors.find((auth) => auth.id === parseInt(authorId));
 
-    if (status === "loading") {
-        return <div>...Loading books</div>
+    if (!author) {
+      return <p>Author not found.</p>;
     }
-
-    if (status === "failed") {
-        return <div>Error: {error}</div>
-    }
-
     return (
         <div>
             <h3>Book List</h3>
-            <AddBookButton authorId={authorId} genreId={genreId} />
-            <List items={books} getDisplayText={book => book.title} 
-            getLink={book => genreId ? `/genres/${genreId}/authors/${authorId}/books/${book.id}` : `/authors/${authorId}/books/${book.id}`}/>
+            {/* <AddBookButton authorId={authorId} genreId={genreId} /> */}
+            <List items={author.books} getDisplayText={book => book.title} 
+            getLink={book => `/authors/${authorId}/books/${book.id}`}/>
         </div>
     )
 }

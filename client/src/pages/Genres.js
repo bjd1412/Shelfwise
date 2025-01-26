@@ -1,18 +1,11 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux"
-import { fetchGenres } from "../redux/actions/genresAction";
+import React from "react";
+import { useSelector } from "react-redux"
 import List from "../components/List";
 import AddGenre from "../components/AddGenre";
 
 function Genres () {
-    const dispatch = useDispatch()
-    const {genres, status} = useSelector( state => state.genres)
+    const {genres} = useSelector( state => state.genres)
 
-    useEffect( () => {
-         if (status === "idle") {
-              dispatch(fetchGenres());
-            }
-    }, [dispatch, status])
 
     
       return (

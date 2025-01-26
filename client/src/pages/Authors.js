@@ -1,19 +1,12 @@
-import React, {useEffect} from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { fetchAuthors } from "../redux/actions/authorsActions"
+import React from "react"
+import { useOutletContext } from "react-router-dom"
+import { useSelector } from "react-redux"
 import List from "../components/List"
 import AddAuthor from "../components/AddAuthor"
 
 function Authors() {
-  const dispatch = useDispatch();
-  const { authors, status } = useSelector((state) => state.authors);
-
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchAuthors());
-    }
-  }, [dispatch, status]);
-
+  
+  const {authors} = useOutletContext()
 
   return (
     <div>
