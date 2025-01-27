@@ -80,27 +80,28 @@ export const fetchPatronBorrowing = (patronId) => (dispatch) => {
 
 
 
-export const createBorrowing = (borrowingData) => (dispatch, getState) => {
-  console.log("createBorrowing action called with data:", borrowingData);
-
+  export const createBorrowing = (borrowingData) => (dispatch, getState) => {
+    console.log("createBorrowing action called with data:", borrowingData);
   
-  const formData = new FormData();
-  formData.append("book_title", borrowingData.bookTitle);
-  formData.append("due_date", borrowingData.dueDate);
-  formData.append("patron_id", borrowingData.patronId); 
-  return fetch("/borrowings", {
-    method: "POST",
-    body: formData,
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Borrowing created:", data);
-      dispatch(setBorrowingStatus("succeeded"));
-      dispatch(setPatronsBorrowings(data)); 
+    const formData = new FormData();
+    formData.append("book_title", borrowingData.bookTitle);
+    formData.append("due_date", borrowingData.dueDate);
+    formData.append("patron_id", borrowingData.patronId);
+  
+   
+    return fetch("/borrowings", {
+      method: "POST",
+      body: formData,
     })
-    .catch((error) => {
-      console.error("Error in createBorrowing:", error);
-      dispatch(setBorrowingStatus("failed"));
-      dispatch(setBorrowingError(error.message));
-    });
-};
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Borrowing created:", data);
+        dispatch(setBorrowingStatus("succeeded"));
+        dispatch(fetchPatrons()); 
+      })
+      .catch((error) => {
+        console.error("Error in createBorrowing:", error);
+        dispatch(setBorrowingStatus("failed"));
+        dispatch(setBorrowingError(error.message));
+      });
+  };

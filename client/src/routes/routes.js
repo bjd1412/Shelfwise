@@ -49,11 +49,19 @@ const routes = [
                 element: <BookDetailsPage/>
             },
             {
-                path: "/authors/:authorId/books/new/:authorId",
+                path: "/authors/:authorId/books/new",
                 element: <BookFormPage/>
             },
             {
-                path: "/genres/:genreId/authors/:authorId/books/new/:authorId",
+                path: "/genres/:genreId/authors/:authorId/books/new",
+                element: <BookFormPage/>
+            },
+            {
+                path: "/authors/:authorId/books/:bookId/edit",
+                element: <BookFormPage/>,
+            },
+            {
+                path:"/genres/:genreId/authors/:authorId/books/:bookId/edit",
                 element: <BookFormPage/>
             },
         

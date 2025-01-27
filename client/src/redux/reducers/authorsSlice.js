@@ -17,8 +17,14 @@ const authorsSlice = createSlice({
         setAuthorsError: (state, action) => {
             state.error = action.payload
         },
+        deleteBookFromAuthor: (state, action) => {
+            const { authorId, bookId } = action.payload;
+            const author = state.authors.find((auth) => auth.id === authorId);
+            if (author) {
+              author.books = author.books.filter((book) => book.id !== bookId); // Remove the book from the author's books list
+            }}
     },
 });
 
-export const {setAuthors, setAuthorsStatus, setAuthorsError} = authorsSlice.actions
+export const {deleteBookFromAuthor, setAuthors, setAuthorsStatus, setAuthorsError} = authorsSlice.actions
 export default authorsSlice.reducer

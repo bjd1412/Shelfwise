@@ -1,92 +1,7 @@
-import { setBooks, setBookDetails, setBooksError, setBooksStatus } from "../reducers/booksSlice";
+import { setBooksError, setBooksStatus } from "../reducers/booksSlice";
 import { setAuthors } from "../reducers/authorsSlice";
 
-export const fetchAuthorBooks = (authorId) => (dispatch) => {
 
-    dispatch(setBooksStatus("loading"))
-    dispatch(setBooks([]))
-
-    fetch(`/authors/${authorId}/books`)
-    .then(res => {
-        if (!res.ok) {
-            throw new Error("Failed to fetch books")
-        }
-        return res.json()
-    })
-    .then( books => {
-        dispatch(setBooksStatus("succeeded"))
-        dispatch(setBooks(books))
-    })
-    .catch(error => {
-        setBooksError(error.toString())
-        setBooksStatus("failed")
-    })
-
-}
-
-export const fetchGenreAuthorBooks = (genreId, authorId) => (dispatch) => {
-    dispatch(setBooksStatus("loading"))
-    dispatch(setBooks([]))
-
-    fetch(`/genres/${genreId}/authors/${authorId}/books`)
-    .then(res => {
-        if(!res.ok) {
-            throw new Error("Failed to fetch books for author in genre")
-        }
-        return res.json()
-    })
-    .then(books => {
-        dispatch(setBooks(books))
-        dispatch(setBooksStatus('succeeded'))
-    })
-    .catch(error => {
-        dispatch(setBooksError(error.toString()))
-        dispatch(setBooksStatus('failed'))
-    })
-}
-
-export const fetchBookDetails = (bookId) => (dispatch) => {
-    dispatch(setBooksStatus("loading"))
-    dispatch(setBooks([]))
-
-    fetch(`/books/${bookId}`)
-    .then(res => {
-        if (!res.ok) {
-            throw new Error("Failed to fetch books")
-        }
-        return res.json()
-    })
-    .then( book => {
-        dispatch(setBooksStatus("succeeded"))
-        dispatch(setBookDetails(book))
-    })
-    .catch(error => {
-        setBooksError(error.toString())
-        setBooksStatus("failed")
-    })
-
-}
-
-export const fetchBooks = () => (dispatch) => {
-    dispatch(setBooksStatus("loading"))
-    dispatch(setBooks([]))
-
-    fetch("/books")
-    .then(res => {
-        if(!res.ok){
-            throw new Error("Failed to fetch books")
-        }
-        return res.json()
-    })
-    .then(books => {
-        dispatch(setBooksStatus("succeeded"))
-        dispatch(setBooks(books))
-    })
-    .catch(error => {
-        dispatch(setBooksStatus("failed"))
-        dispatch(setBooksError(error.toString()))
-    })
-}
 
 export const createBook = (bookData) => (dispatch, getState) => {
     dispatch(setBooksStatus("loading"));
@@ -130,42 +45,48 @@ export const createBook = (bookData) => (dispatch, getState) => {
         });
 };
 
-export const updateBook = (bookId, updatedData) => (dispatch) => {
-    dispatch(setBooksStatus("loading"));  
+export const updateBook = (bookId, updatedData) => (dispatch, getState) => {
+    dispatch(setBooksStatus("loading"));
 
-    
     const formData = new FormData();
     formData.append("title", updatedData.title);
     formData.append("summary", updatedData.summary);
     formData.append("author_id", updatedData.authorId);
     formData.append("genre_id", updatedData.genreId);
 
-
     fetch(`/books/${bookId}`, {
         method: "PATCH",
-        body: formData,  
+        body: formData,
     })
-    .then((res) => {
-        if (!res.ok) {
-            throw new Error("Failed to update book");
-        }
-        return res.json();
-    })
-    .then((updatedBook) => {
-        dispatch(setBooksStatus("succeeded"));  
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error("Failed to update book");
+            }
+            return res.json();
+        })
+        .then((updatedBook) => {
+            dispatch(setBooksStatus("succeeded"));
 
-       
-        dispatch(setBookDetails(updatedBook));
+            const { authors } = getState(); 
+            const updatedAuthors = authors.authors.map((author) => {
+                if (author.id === updatedBook.author_id) {
+                   
+                    return {
+                        ...author,
+                        books: author.books.map((book) =>
+                            book.id === updatedBook.id ? { ...book, ...updatedBook } : book
+                        ),
+                    };
+                }
+                return author;
+            });
 
-        
-        dispatch(setBooks((prevBooks) => 
-            prevBooks.map((book) => 
-                book.id === updatedBook.id ? updatedBook : book
-            )
-        ));
-    })
-    .catch((error) => {
-        dispatch(setBooksError(error.toString()));  
-        dispatch(setBooksStatus("failed")); 
-    });
+            dispatch(setAuthors(updatedAuthors)); 
+        })
+        .catch((error) => {
+            console.error("Error Updating Book:", error);
+            dispatch(setBooksError(error.toString()));
+            dispatch(setBooksStatus("failed"));
+        });
 };
+

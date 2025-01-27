@@ -1,4 +1,4 @@
-import { setAuthors, setAuthorsError, setAuthorsStatus } from "../reducers/authorsSlice";
+import { deleteBookFromAuthor, setAuthors, setAuthorsError, setAuthorsStatus } from "../reducers/authorsSlice";
 
 export const fetchAuthors = (authorId = null) => (dispatch) => {
     dispatch(setAuthorsStatus('loading'));  
@@ -55,3 +55,32 @@ export const fetchAuthors = (authorId = null) => (dispatch) => {
       });
   };
   
+  export const deleteBook = (bookId) => (dispatch) => {
+    dispatch(setAuthorsStatus("loading"));
+  
+    return fetch(`/books/${bookId}`, {
+      method: "DELETE",
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to delete book");
+        }
+  
+        if (res.status === 204) {
+          return; 
+        }
+  
+        return res.json();
+      })
+      .then(() => {
+        
+        dispatch(fetchAuthors());
+        dispatch(setAuthorsStatus("succeeded"));
+      })
+      .catch((error) => {
+        console.error("Error deleting book:", error);
+        dispatch(setAuthorsError(error.toString()));
+        dispatch(setAuthorsStatus("failed"));
+        throw error; 
+      });
+  };

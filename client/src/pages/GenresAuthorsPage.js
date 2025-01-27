@@ -17,11 +17,12 @@ function GenresAuthorsPage() {
   return (
     <div>
       <h3>{genre.name} Authors</h3>
-      <AddAuthor /> 
+      <AddAuthor genreId={genreId} /> 
+      
       <List
         items={genre.authors}  
         getDisplayText={author => author.name}
-        getLink={author => `/genres/${genre.id}/authors/${author.id}/books`} 
+        getLink={author =>  `/genres/${genre.id}/authors/${author.id}/books?genreId=${genre.id}`} 
       />
     </div>
   );

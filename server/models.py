@@ -46,7 +46,7 @@ class Book(db.Model, SerializerMixin):
 
     author = db.relationship("Author", back_populates="books")
     genre = db.relationship("Genre", back_populates="books")
-    borrowings = db.relationship("Borrowing", back_populates="book")
+    borrowings = db.relationship("Borrowing", back_populates="book", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<Book: {self.id}, {self.title}>"
@@ -139,13 +139,13 @@ class Borrowing(db.Model, SerializerMixin):
             raise ValueError('Invalid patron ID')
         return patron_id
 
-    # @validates('borrow_date')
-    # def validate_borrow_date(self, key, borrow_date):
-    #     if borrow_date is None:
-    #         raise ValueError('Borrow date cannot be None')
-    #     if borrow_date > date.today():
-    #         raise ValueError('Borrow date cannot be in the future')
-    #     return borrow_date
+    @validates('borrow_date')
+    def validate_borrow_date(self, key, borrow_date):
+        if borrow_date is None:
+            raise ValueError('Borrow date cannot be None')
+        if borrow_date > date.today():
+            raise ValueError('Borrow date cannot be in the future')
+        return borrow_date
 
 
     # @validates('due_date')

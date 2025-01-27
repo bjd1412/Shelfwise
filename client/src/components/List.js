@@ -29,9 +29,9 @@ function List({ items, getDisplayText, getLink }) {
   
     
         <ul className="list">
-          {filteredItems.map((item, index) => (
-            <li key={`${item.id || index}-${getDisplayText(item)}`} className="list-item">
-              <Link to={getLink(item)}>{getDisplayText(item)}</Link>
+          {filteredItems.map((item) => (
+            <li  key={`${item.id}-${item.name}`} className="list-item">
+            <Link to={getLink(item)}>{getDisplayText(item)}</Link>
             </li>
           ))}
         </ul>
