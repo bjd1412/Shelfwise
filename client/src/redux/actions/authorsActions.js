@@ -1,16 +1,20 @@
 import { setAuthors, setAuthorsError, setAuthorsStatus } from "../reducers/authorsSlice";
 
-export const fetchAuthors = () => (dispatch) => {
+export const fetchAuthors = (authorId = null) => (dispatch) => {
     dispatch(setAuthorsStatus('loading'));  
+
+     const url = authorId ? `/authors/${authorId}` : "/authors"
   
-    fetch('/authors')  
+    fetch(url)  
       .then((response) => {
         if (!response.ok) {
           throw new Error('Failed to fetch authors');
         }
         return response.json();  
       })
-      .then((authors) => {
+      .then((data) => {
+        const authors = authorId ? [data] : data
+        console.log("Fetched Authors:", data)
         dispatch(setAuthors(authors));  
         dispatch(setAuthorsStatus('succeeded'));  
       })

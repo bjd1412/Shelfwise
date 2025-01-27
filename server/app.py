@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from flask import request, session, Flask, make_response, jsonify
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask_restful import Resource
 from config import app, db, api
 from models import Author, Book, Genre, Borrowing, Patron
@@ -18,10 +18,15 @@ def index():
 
 class Authors(Resource):
     def get(self):
-        author = Author.query.all()
+        authors = Author.query.all()
         authors_list = []
-        for auth in author:
-            author_dict = auth.to_dict()
+        for author in authors:
+            author_dict = author.to_dict()
+            author_dict["books"] = []
+            for book in author.books:
+                book_dict = book.to_dict()  
+                book_dict["genre"] = book.genre.to_dict(only=("id", "name"))
+                author_dict["books"].append(book_dict)
             authors_list.append(author_dict)
         return make_response(authors_list, 200)
 
@@ -64,10 +69,11 @@ class Author_ID(Resource):
 class Books(Resource):
 
     def get(self):
-        books = Book.query.order_by(Book.title).all()
+        books = Book.query.options(joinedload(Book.genre)).order_by(Book.title).all()
         book_list = []
         for book in books:
             book_dict = book.to_dict()
+            book_dict["genre"] = book.genre.to_dict(only=("id", "name"))  # Ensure genre data is included
             book_list.append(book_dict)
         return make_response(book_list, 200)
 
@@ -125,14 +131,27 @@ class Book_ID(Resource):
 
 
 class Genres(Resource):
-
+    
     def get(self):
-        genre = Genre.query.all()
+        genres = Genre.query.order_by(Genre.name).all()  # Querying all genres
         genre_list = []
-        for gen in genre:
-            genre_dict = gen.to_dict()
-            genre_list.append(genre_dict)
-        return make_response(genre_list, 200)
+
+        for genre in genres:  # Iterate over each genre
+            genre_dict = genre.to_dict()  # Convert genre to dict
+            genre_dict["authors"] = []  # Initialize an empty list for authors
+
+            # Iterate over the authors related to the genre
+            for author in genre.authors:
+                author_dict = author.to_dict()  # Convert author to dict
+                # For each author, add their books related to this genre
+                author_dict["books"] = [book.to_dict(only=("id", "title", "summary"))
+                                        for book in author.books if book.genre_id == genre.id]
+                genre_dict["authors"].append(author_dict)  # Add author to the authors list
+
+            genre_list.append(genre_dict)  # Append genre to the final list
+
+        return make_response(genre_list, 200)  
+
 
     def post(self):
         data = request.form
@@ -183,7 +202,7 @@ class Genre_ID(Resource):
 class Patrons(Resource):
 
     def get(self):
-        patron = Patron.query.all()
+        patron = Patron.query.order_by(Patron.name).all()
         patron_list = []
         for pat in patron:
             patron_dict = pat.to_dict()
@@ -263,7 +282,7 @@ class Borrowings(Resource):
             return make_response({"Error": "Due date cannot exceed 30 days from borrow date."}, 400)
 
         book = Book.query.filter_by(title=data["book_title"]).first()
-        patron = Patron.query.filter_by(email=data["patron_email"]).first()
+        patron = Patron.query.get(data["patron_id"])
 
         if not book:
             return make_response({"Error": "Book not found."}, 404)
@@ -275,6 +294,8 @@ class Borrowings(Resource):
             book_id=book.id,
             patron_id=patron.id,
             due_date=due_date,
+            borrow_date=borrow_date,
+            return_date=None
         )
         db.session.add(new_borrowing)
         db.session.commit()
@@ -309,8 +330,9 @@ class AuthorBooks(Resource):
         if not author:
             return make_response({"Error": "Author not found"}, 404)
 
-        books = [book.to_dict() for book in author.books]
-        return make_response(books, 200)
+        books = Book.query.filter_by(author_id=author_id).order_by(Book.title).all()
+        books_list = [book.to_dict() for book in books]
+        return make_response(books_list, 200)
 
 class GenreAuthors(Resource):
     def get(self, genre_id):
@@ -318,8 +340,15 @@ class GenreAuthors(Resource):
         if not genre:
             return make_response({"Error": "Genre not found"}, 404)
 
-        authors = {author.id: author.to_dict() for author in genre.authors}
-        return make_response(list(authors.values()), 200)
+        authors = (
+            Author.query.join(Book)
+            .filter(Book.genre_id == genre_id)
+            .order_by(Author.name)
+            .all()
+        )
+
+        authors_list = [author.to_dict() for author in authors]
+        return make_response(authors_list, 200)
 
 
 class PatronBooks(Resource):

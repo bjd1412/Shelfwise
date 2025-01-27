@@ -6,7 +6,7 @@ import List from "../components/List"
 function AuthorsBooksPage () {
 
     const {authors} = useOutletContext()
-    const {authorId, genreId} = useParams()
+    const {authorId} = useParams()
 
     const author = authors.find((auth) => auth.id === parseInt(authorId));
 
@@ -16,8 +16,8 @@ function AuthorsBooksPage () {
     return (
         <div>
             <h3>Book List</h3>
-            {/* <AddBookButton authorId={authorId} genreId={genreId} /> */}
-            <List items={author.books} getDisplayText={book => book.title} 
+            <AddBookButton authorId={authorId}/>
+            <List items={author.books || []} getDisplayText={book => book.title} 
             getLink={book => `/authors/${authorId}/books/${book.id}`}/>
         </div>
     )

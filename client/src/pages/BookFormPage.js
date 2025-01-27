@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 import BookForm from "../components/forms/BookForm";
-import { fetchAuthors } from "../redux/actions/authorsActions";
-import { fetchGenres } from "../redux/actions/genresAction";
 import { createBook, updateBook} from "../redux/actions/booksActions";
 
 function BookFormPage() {
     const { authorId } = useParams();
+    const dispatch = useDispatch()
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const {authors, genres} = useOutletContext()
   
     const [initialValues, setInitialValues] = useState({
       title: "",
@@ -18,17 +17,6 @@ function BookFormPage() {
       genreId: "",
     });
   
-    const { authors, genres, authorsLoading, genresLoading } = useSelector((state) => ({
-      authors: state.authors.authors, 
-      genres: state.genres.genres,
-      authorsLoading: state.authors.status === "loading",
-      genresLoading: state.genres.status === "loading",
-    }));
-  
-    useEffect(() => {
-      dispatch(fetchAuthors());
-      dispatch(fetchGenres());
-    }, [dispatch]);
   
     const handleSubmit = async (values) => {
       const { title, summary, authorId, genreId } = values;
@@ -42,10 +30,6 @@ function BookFormPage() {
       navigate(`/authors/${authorId}/books`);
     };
   
- 
-    if (authorsLoading || genresLoading) {
-      return <div>Loading authors and genres...</div>;
-    }
   
     
     const authorsList = Array.isArray(authors) ? authors : [];

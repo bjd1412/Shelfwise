@@ -1,46 +1,45 @@
 import React from "react";
-import { useEffect } from "react";
-import { fetchPatronBorrowing } from "../redux/actions/patronsAction";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
+import AddBorrow from "../components/AddBorrow";
 
 function PatronDetailsPage() {
-    const dispatch = useDispatch()
-    const {borrowings, status, error} = useSelector(state => state.patrons)
+
+    const {patrons} = useOutletContext()
     const {patronId} = useParams()
 
-    useEffect(() => {
-        dispatch(fetchPatronBorrowing(patronId))
-    }, [dispatch, patronId])
+    const patron = patrons.find(patron => patron.id === parseInt(patronId))
 
-    if (status === "loading") {
-        return <div>Loading...</div>
-    }
+    if (!patron) {
+        return <div>Patron not found</div>;
+      }
+    
 
-    if (status === "failed") {
-        return <div>Error: {error}</div>
-    }
+    const borrowings = patron.borrowings || [];
 
-    if (!borrowings || borrowings.length === 0){
-        return <div>This Patron has no borrowings</div>
-    }
+
 
     return (
+        
         <div>
-             <h1>Patron Borrowing Info</h1>
-            <ul>
-                {borrowings.map(borrowing => (
-                    <li key={borrowing.id}>
-                        <h4>{borrowing.book_title}</h4>
-                        <p>Borrowed on: {borrowing.borrow_date}</p>
-                        <p>Due date: {borrowing.due_date}</p>
-                        {borrowing.return_date && <p>Returned on: {borrowing.return_date}</p>}
-                    </li>
-                ))}
-            </ul>
+            <AddBorrow/>
+          <h1>{patron.name}'s Borrowings</h1>
+          <ul>
+            {borrowings.length === 0 ? (
+              <li>No borrowings found for this patron.</li>
+            ) : (
+              borrowings.map(borrowing => (
+                <div key={borrowing.id}>
+                  <div><strong>Title:</strong> {borrowing.book.title}</div>
+                  <div><strong>Borrow Date:</strong> {new Date(borrowing.borrow_date).toLocaleDateString()}</div>
+                  <div><strong>Due Date:</strong> {new Date(borrowing.due_date).toLocaleDateString()}</div>
+                  <div><strong>Return Date:</strong>  {borrowing.return_date
+                  ? new Date(borrowing.return_date).toLocaleDateString()
+                  : "Not returned yet"}</div>
+                </div>
+              ))
+            )}
+          </ul>
         </div>
-    )
-
-
-}
+      );
+    }
 export default PatronDetailsPage

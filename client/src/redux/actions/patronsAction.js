@@ -1,4 +1,4 @@
-import { setPatronsStatus, setPatrons, setPatronsBorrowings, setPatronError } from "../reducers/patronsSlice";
+import { setPatronsStatus, setPatrons, setPatronsBorrowings, setPatronError , setBorrowingError, setBorrowingStatus} from "../reducers/patronsSlice";
 
 export const fetchPatrons = () => (dispatch) => {
     dispatch(setPatronsStatus("loading"))
@@ -76,6 +76,31 @@ export const fetchPatronBorrowing = (patronId) => (dispatch) => {
         dispatch(setPatronsStatus("failed"));  
         throw error; 
       });
-  };
-  
+  }
 
+
+
+export const createBorrowing = (borrowingData) => (dispatch, getState) => {
+  console.log("createBorrowing action called with data:", borrowingData);
+
+  
+  const formData = new FormData();
+  formData.append("book_title", borrowingData.bookTitle);
+  formData.append("due_date", borrowingData.dueDate);
+  formData.append("patron_id", borrowingData.patronId); 
+  return fetch("/borrowings", {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Borrowing created:", data);
+      dispatch(setBorrowingStatus("succeeded"));
+      dispatch(setPatronsBorrowings(data)); 
+    })
+    .catch((error) => {
+      console.error("Error in createBorrowing:", error);
+      dispatch(setBorrowingStatus("failed"));
+      dispatch(setBorrowingError(error.message));
+    });
+};

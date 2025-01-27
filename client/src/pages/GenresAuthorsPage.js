@@ -1,27 +1,30 @@
-import React, {useEffect} from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
-import { fetchGenresAuthor } from "../redux/actions/genresAction"
-import List from "../components/List"
-
+import React from "react";
+import { useParams } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
+import List from "../components/List";
+import AddAuthor from "../components/AddAuthor";
 
 function GenresAuthorsPage() {
-    const dispatch = useDispatch()
-    const {authors, status} = useSelector(state => state.authors)
-    const {genreId } = useParams()
+  const { genreId } = useParams()
+  const { genres } = useOutletContext()
 
-    useEffect(() => {
-        if (status === "idle") {
-            dispatch(fetchGenresAuthor(genreId))
-        }     
-    }, [dispatch, genreId, status])
+  const genre = genres.find(genre => genre.id === parseInt(genreId))
 
-    return (
-        <div>
-            <h3>Authors</h3>
-            <List items={authors} getDisplayText={author => author.name } getLink={author => `/genres/${genreId}/authors/${author.id}/books`}/>
-        </div>
-    )
+  if (!genre) {
+    return <div>Loading...</div>; 
+  }
+
+  return (
+    <div>
+      <h3>{genre.name} Authors</h3>
+      <AddAuthor /> 
+      <List
+        items={genre.authors}  
+        getDisplayText={author => author.name}
+        getLink={author => `/genres/${genre.id}/authors/${author.id}/books`} 
+      />
+    </div>
+  );
 }
 
-export default GenresAuthorsPage
+export default GenresAuthorsPage;

@@ -1,4 +1,5 @@
 import { setBooks, setBookDetails, setBooksError, setBooksStatus } from "../reducers/booksSlice";
+import { setAuthors } from "../reducers/authorsSlice";
 
 export const fetchAuthorBooks = (authorId) => (dispatch) => {
 
@@ -88,18 +89,17 @@ export const fetchBooks = () => (dispatch) => {
 }
 
 export const createBook = (bookData) => (dispatch, getState) => {
-    dispatch(setBooksStatus("loading"));  
+    dispatch(setBooksStatus("loading"));
 
-    
     const formData = new FormData();
     formData.append("title", bookData.title);
     formData.append("summary", bookData.summary);
-    formData.append("author_id", bookData.authorId);  
-    formData.append("genre_id", bookData.genreId);    
+    formData.append("author_id", bookData.authorId);
+    formData.append("genre_id", bookData.genreId);
 
     fetch("/books", {
         method: "POST",
-        body: formData,  
+        body: formData,
     })
         .then((res) => {
             if (!res.ok) {
@@ -109,10 +109,22 @@ export const createBook = (bookData) => (dispatch, getState) => {
         })
         .then((newBook) => {
             dispatch(setBooksStatus("succeeded"));
-            const currentBooks = getState().books.books
-            dispatch(setBooks([...currentBooks, newBook]));  
+
+            const { authors } = getState(); 
+            const updatedAuthors = authors.authors.map((author) => {
+                if (author.id === newBook.author_id) {
+                   
+                    return {
+                        ...author,
+                        books: [...author.books, newBook], 
+                    };
+                }
+                return author;
+            });
+            dispatch(setAuthors(updatedAuthors));
         })
         .catch((error) => {
+            console.error("Error Creating Book:", error);
             dispatch(setBooksError(error.toString()));
             dispatch(setBooksStatus("failed"));
         });

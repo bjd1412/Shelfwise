@@ -51,7 +51,6 @@ const routes = [
             {
                 path: "/authors/:authorId/books/new/:authorId",
                 element: <BookFormPage/>
-
             },
             {
                 path: "/genres/:genreId/authors/:authorId/books/new/:authorId",

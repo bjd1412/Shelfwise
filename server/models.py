@@ -36,7 +36,7 @@ class Author(db.Model, SerializerMixin):
 class Book(db.Model, SerializerMixin):
     __tablename__ = "books"
 
-    serialize_rules = ("-author", "-borrowings", "-genre",)
+    serialize_rules = ( "-borrowings", "genre", "-author")
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
@@ -110,7 +110,7 @@ class Genre(db.Model, SerializerMixin):
 class Borrowing(db.Model, SerializerMixin):
     __tablename__ = "borrowings"
 
-    serialize_rules = ("-book", "-patron",)
+    serialize_rules = ("book", "-patron",)
 
     id = db.Column(db.Integer, primary_key=True)
     book_id = db.Column(db.Integer, db.ForeignKey('books.id'), nullable=False, index=True)
@@ -139,34 +139,45 @@ class Borrowing(db.Model, SerializerMixin):
             raise ValueError('Invalid patron ID')
         return patron_id
 
-    @validates('borrow_date')
-    def validate_borrow_date(self, key, borrow_date):
-        if borrow_date is None:
-            raise ValueError('Borrow date cannot be None')
-        if borrow_date > date.today():
-            raise ValueError('Borrow date cannot be in the future')
-        return borrow_date
+    # @validates('borrow_date')
+    # def validate_borrow_date(self, key, borrow_date):
+    #     if borrow_date is None:
+    #         raise ValueError('Borrow date cannot be None')
+    #     if borrow_date > date.today():
+    #         raise ValueError('Borrow date cannot be in the future')
+    #     return borrow_date
 
-    @validates('due_date', 'return_date')
-    def validate_dates(self, key, date):
-        if key == 'due_date':
-            if self.borrow_date is None:
-                raise ValueError("Borrow date must be set before due date.")
-            if date <= self.borrow_date:
-                raise ValueError("Due date must be after borrow date.")
-            if date > self.borrow_date + timedelta(days=30):
-                raise ValueError("Due date cannot exceed 30 days from borrow date")
-        if key == 'return_date':
-            if date and date < self.borrow_date:
-                raise ValueError("Return date must be after borrow date.")
-        return date
+
+    # @validates('due_date')
+    # def validate_dates(self, key, value):
+    #     if self.borrow_date and value <= self.borrow_date:
+    #         raise ValueError("Borrow date must be set before due date.")
+    #     return value
+
+
+
+
+
+    # @validates('due_date', 'return_date')
+    # def validate_dates(self, key, date):
+    #     if key == 'due_date':
+    #         if self.borrow_date is None:
+    #             raise ValueError("Borrow date must be set before due date.")
+    #         if date <= self.borrow_date:
+    #             raise ValueError("Due date must be after borrow date.")
+    #         if date > self.borrow_date + timedelta(days=30):
+    #             raise ValueError("Due date cannot exceed 30 days from borrow date")
+    #     if key == 'return_date':
+    #         if date and date < self.borrow_date:
+    #             raise ValueError("Return date must be after borrow date.")
+    #     return date
 
 
 
 class Patron(db.Model, SerializerMixin):
     __tablename__ = "patrons"
 
-    serialize_rules = ("-borrowings", "-books",)
+    serialize_rules = ("borrowings", "-books",)
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)

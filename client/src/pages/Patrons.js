@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import List from "../components/List";
-
+import { useOutletContext } from "react-router-dom";
 import { useSelector } from "react-redux";
 import AddPatron from "../components/AddPatron";
 
 function Patrons() {
 
-    const {patrons} = useSelector(state => state.patrons)
+    const {patrons} = useOutletContext()
 
 
 

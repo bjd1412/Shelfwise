@@ -13,6 +13,8 @@ function App() {
 
   const dispatch = useDispatch()
   const authors = useSelector(state => state.authors.authors)
+  const genres = useSelector(state => state.genres.genres)
+  const patrons = useSelector(state => state.patrons.patrons)
 
   useEffect(() => {
     dispatch(fetchPatrons());
@@ -26,7 +28,7 @@ function App() {
     <div className="App">
       <NavBar/>
       <header className="App-header">
-      <Outlet context={{authors}} />
+      <Outlet context={{authors, genres, patrons}} />
       </header>
   
    
