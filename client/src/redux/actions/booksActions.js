@@ -31,14 +31,13 @@ export const createBook = (bookData) => (dispatch, getState) => {
           if (author.id === newBook.author_id) {
             return {
               ...author,
-              books: [...author.books, newBook],
+              books: author.books ? [...author.books, newBook] : [newBook],
             };
           }
           return author;
         });
         dispatch(setAuthors(updatedAuthors));
   
-        
         dispatch(fetchGenres());
       })
       .catch((error) => {
@@ -47,7 +46,6 @@ export const createBook = (bookData) => (dispatch, getState) => {
         dispatch(setBooksStatus("failed"));
       });
   };
-
   export const updateBook = (bookId, updatedData) => (dispatch, getState) => {
     dispatch(setBooksStatus("loading"));
   
