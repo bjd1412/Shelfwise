@@ -10,7 +10,7 @@ function Patrons() {
 
 
     return (
-        <div>
+        <div className="Main">
             <h3>Patrons</h3>
             <AddPatron/>
             <List items={patrons} getDisplayText={patron => patron.name} getLink={patron => `/patrons/${patron.id}`} />

@@ -8,7 +8,7 @@ function Genres () {
 
     
       return (
-        <div>
+        <div className="Main">
           <h3>Genres List</h3>
           <AddGenre/>
           <List items={genres} getDisplayText={genre => genre.name} getLink={genre => `/genres/${genre.id}/authors`}/>        

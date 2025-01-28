@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -21,7 +22,7 @@ function PatronDetailsPage() {
 
     return (
         
-        <div>
+        <div className="Main">
             <AddBorrow/>
           <h1>{patron.name}'s Borrowings</h1>
           <ul>
@@ -33,9 +34,9 @@ function PatronDetailsPage() {
                   <div><strong>Title:</strong> {borrowing.book.title}</div>
                   <div><strong>Borrow Date:</strong> {new Date(borrowing.borrow_date).toLocaleDateString()}</div>
                   <div><strong>Due Date:</strong> {new Date(borrowing.due_date).toLocaleDateString()}</div>
-                  <div><strong>Return Date:</strong>  {borrowing.return_date
-                  ? new Date(borrowing.return_date).toLocaleDateString()
-                  : "Not returned yet"}</div>
+                  {borrowing.return_date && (
+                    <div><strong>Return Date:</strong> {new Date(borrowing.return_date).toLocaleDateString()}</div>
+                  )}
                 </div>
               ))
             )}

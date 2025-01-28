@@ -25,13 +25,11 @@ function App() {
 
   
   return (
-    <div className="App">
+    <div className='App'>
       <NavBar/>
-      <header className="App-header">
+      <div className='App-header'>
       <Outlet  />
-      </header>
-  
-   
+      </div> 
     </div>
   );
 }

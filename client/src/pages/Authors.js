@@ -8,7 +8,7 @@ function Authors() {
   const authors = useSelector(state => state.authors.authors)
 
   return (
-    <div>
+    <div className="Main">
       <h3>Authors List</h3>
       <AddAuthor />
       <List

@@ -24,7 +24,7 @@ function AuthorsBooksPage() {
     : author.books;
 
   return (
-    <div>
+    <div className="Main">
       <h3>Books in Selected Genre</h3>
       <AddBookButton authorId={authorId} genreId={genreId} />
       <List

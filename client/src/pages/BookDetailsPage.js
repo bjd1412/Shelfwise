@@ -23,7 +23,7 @@ function BookDetailsPage () {
     }
 
     return (
-        <div>
+        <div className="Main">
             <EditBookButton bookId={bookId}/> 
             <DeleteBookButton bookId={bookId}/>    
             <h1>{bookDetails.title}</h1>        

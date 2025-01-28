@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useDispatch } from "react-redux";
 import { deleteBook } from "../redux/actions/authorsActions";
@@ -10,7 +11,7 @@ const DeleteBookButton = ({bookId}) => {
   
     const handleDelete = () => {
       if (window.confirm("Are you sure you want to delete this book?")) {
-        dispatch(deleteBook(authorId, bookId))
+        dispatch(deleteBook(bookId)) // Pass only bookId
           .then(() => {           
             if (authorId) {
               navigate(`/authors/${authorId}/books`);

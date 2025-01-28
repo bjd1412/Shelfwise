@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { useOutletContext, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import BaseForm from "./BaseForm";
+import CustomDropdown from "../CustomDropdown";
 import TextField from "./TextField";
 import * as Yup from "yup";
 
 function BorrowingForm({ onSubmit }) {
-  const { authors } = useOutletContext(); // Access authors from Outlet context
+  const authors = useSelector(state => state.authors.authors)
   const { patronId } = useParams(); // Get patronId from URL parameters
   const [books, setBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredBooks, setFilteredBooks] = useState([]);
 
   useEffect(() => {
-    // Extract all books from authors and set them to the books state
+    
     const allBooks = authors.reduce((acc, author) => {
       return [...acc, ...author.books];
     }, []);
@@ -20,7 +22,7 @@ function BorrowingForm({ onSubmit }) {
   }, [authors]);
 
   useEffect(() => {
-    // Filter books based on search term
+   
     setFilteredBooks(
       books.filter((book) =>
         book.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -29,8 +31,8 @@ function BorrowingForm({ onSubmit }) {
   }, [searchTerm, books]);
 
   const initialValues = {
-    bookTitle: "", // Book title will be selected from dropdown
-    dueDate: "",   // Due date input field
+    bookTitle: "", 
+    dueDate: "",   
   };
 
   const validationSchema = Yup.object({
@@ -72,40 +74,19 @@ function BorrowingForm({ onSubmit }) {
       {(formik) => (
         <>
           
-          <TextField
-            formik={{
-              values: { search: searchTerm },
-              handleChange: (e) => setSearchTerm(e.target.value),
-              handleBlur: () => {},
-              touched: {},
-              errors: {},
-            }}
-            name="search"
-            label="Search Book Title"
-            placeholder="Type to search for a book..."
-          />
-
+            <CustomDropdown
+          label="Book Title"
+          options={filteredBooks.map((book) => ({
+            value: book.title,
+            label: book.title,
+          }))}
+          value={formik.values.bookTitle}
+          onChange={(option) => formik.setFieldValue('bookTitle', option.value)}
+          onBlur={() => formik.setFieldTouched('bookTitle', true)}
+          error={formik.touched.bookTitle && formik.errors.bookTitle}
+          touched={formik.touched.bookTitle}
+        />      
           
-          <div>
-            <label htmlFor="bookTitle">Book Title</label>
-            <select
-              id="bookTitle"
-              name="bookTitle"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.bookTitle}
-            >
-              <option value="" label="Select a book" />
-              {filteredBooks.map((book) => (
-                <option key={book.id} value={book.title}>
-                  {book.title}
-                </option>
-              ))}
-            </select>
-            {formik.touched.bookTitle && formik.errors.bookTitle && (
-              <div>{formik.errors.bookTitle}</div>
-            )}
-          </div>
 
           
           <TextField

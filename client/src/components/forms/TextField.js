@@ -1,6 +1,6 @@
 function TextField({ formik, name, placeholder, label, type = "text", error }) {
     return (
-      <div>
+      <div className="textfield-container">
         <label htmlFor={name}>{label}</label>
         <input
           id={name}

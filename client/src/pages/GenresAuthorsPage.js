@@ -13,19 +13,22 @@ function GenresAuthorsPage() {
   if (!genre) {
     return <div>Loading...</div>; 
   }
+
+  const authors = genre.authors || []; // Add a default value if authors is undefined
+
   const uniqueAuthors = Array.from(
-    new Map(genre.authors.map((author) => [author.id, author])).values()
+    new Map(authors.map((author) => [author.id, author])).values()
   );
 
   console.log(uniqueAuthors);
 
   return (
-    <div>
+    <div className="Main">
       <h3>{genre.name} Authors</h3>
       <AddAuthor genreId={genreId} />
 
       <List
-        items={uniqueAuthors} // Use deduplicated authors
+        items={uniqueAuthors} 
         getKey={(author) => `${author.id}-${author.name}`}
         getDisplayText={(author) => author.name}
         getLink={(author) =>

@@ -1,41 +1,35 @@
 .App {
-  text-align: center;
+  text-align: center;  
+  display: flex;  
+  flex-direction: column;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
 .App-header {
-  background-color: #282c34;
+  background-color: #f3f3f3;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: rgb(0, 0, 0);
+}
+
+.Main {  
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  
+  border: 1px solid rgba(0, 0, 0, 0.1);  
+  border-radius: 10px;  
+  padding: 20px;  
+  background-color: #ffffff;  
 }
 
 .App-link {
-  color: #61dafb;
+  color: #000000;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+
 .hoverable-container {
   position: relative;
 }
@@ -64,7 +58,7 @@
 }
 
 .modal-content {
-  background-color: #fff;
+  background-color: #afaaaa;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -89,8 +83,8 @@
 }
 
 .error-notification {
-  background-color: #f2dede;
-  border: 1px solid #ebccd1;
+  background-color: #f83333;
+  border: 1px solid #fa3333;
   padding: 10px;
   margin-bottom: 10px;
   display: flex;
@@ -148,9 +142,68 @@
 
 .list-item a {
   text-decoration: none;
-  color: #007bff;
+  color: #000000;
 }
 
 .list-item a:hover {
   text-decoration: underline;
+}
+
+.textfield-container .textfield-error-message {
+  color: red !important;  /* Force red color for the error message */
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  display: block;
+}
+
+.textfield-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.textfield-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.textfield-input-error {
+  border-color: red;  
+}
+
+.textfield-error-message {
+  color: red !important;
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.error-notification {
+  color: red;
+  background-color: #ffe6e6;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.error-message {
+  font-size: 14px;
+}
+
+.dropdown-container {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+input, select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+select {
+  padding-right: 2rem; 
 }
