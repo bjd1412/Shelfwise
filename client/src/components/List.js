@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 
-function List({ items, getDisplayText, getLink }) {
+function List({ items, getKey = (item) => item.id, getDisplayText, getLink }) {
     const [searchTerm, setSearchTerm] = useState(""); 
   
     const handleSearchChange = (e) => {
@@ -30,7 +30,7 @@ function List({ items, getDisplayText, getLink }) {
     
         <ul className="list">
           {filteredItems.map((item) => (
-            <li  key={`${item.id}-${item.name}`} className="list-item">
+            <li  key={getKey(item)} className="list-item">
             <Link to={getLink(item)}>{getDisplayText(item)}</Link>
             </li>
           ))}

@@ -1,28 +1,36 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useOutletContext } from "react-router-dom";
+import { useSelector } from "react-redux";
 import List from "../components/List";
 import AddAuthor from "../components/AddAuthor";
 
 function GenresAuthorsPage() {
   const { genreId } = useParams()
-  const { genres } = useOutletContext()
+  const genres = useSelector(state => state.genres.genres)
 
   const genre = genres.find(genre => genre.id === parseInt(genreId))
 
   if (!genre) {
     return <div>Loading...</div>; 
   }
+  const uniqueAuthors = Array.from(
+    new Map(genre.authors.map((author) => [author.id, author])).values()
+  );
+
+  console.log(uniqueAuthors);
 
   return (
     <div>
       <h3>{genre.name} Authors</h3>
-      <AddAuthor genreId={genreId} /> 
-      
+      <AddAuthor genreId={genreId} />
+
       <List
-        items={genre.authors}  
-        getDisplayText={author => author.name}
-        getLink={author =>  `/genres/${genre.id}/authors/${author.id}/books?genreId=${genre.id}`} 
+        items={uniqueAuthors} // Use deduplicated authors
+        getKey={(author) => `${author.id}-${author.name}`}
+        getDisplayText={(author) => author.name}
+        getLink={(author) =>
+          `/genres/${genre.id}/authors/${author.id}/books?genreId=${genre.id}`
+        }
       />
     </div>
   );

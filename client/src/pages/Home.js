@@ -1,5 +1,4 @@
 import React from "react";
-import AddAuthor from "../components/AddAuthor.js";
 
 function Home() {
   return (

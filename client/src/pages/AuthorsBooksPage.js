@@ -1,10 +1,11 @@
 import React from "react";
-import { useOutletContext, useParams, useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import {  useParams, useSearchParams } from "react-router-dom";
 import AddBookButton from "../components/AddBookButton";
 import List from "../components/List";
 
 function AuthorsBooksPage() {
-  const { authors } = useOutletContext();
+  const authors = useSelector(state => state.authors.authors)
   const { authorId } = useParams();
   const [searchParams] = useSearchParams();
   const genreId = searchParams.get("genreId"); 
@@ -27,9 +28,11 @@ function AuthorsBooksPage() {
       <h3>Books in Selected Genre</h3>
       <AddBookButton authorId={authorId} genreId={genreId} />
       <List
-        items={filteredBooks} 
+        items={filteredBooks}
+        getKey={(book) => `${book.id}-${book.title}`} 
         getDisplayText={(book) => book.title}
         getLink={(book) => `/authors/${authorId}/books/${book.id}`}
+        
       />
     </div>
   );

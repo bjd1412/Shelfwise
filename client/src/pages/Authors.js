@@ -1,12 +1,11 @@
 import React from "react"
-import { useOutletContext } from "react-router-dom"
 import { useSelector } from "react-redux"
 import List from "../components/List"
 import AddAuthor from "../components/AddAuthor"
 
 function Authors() {
   
-  const {authors} = useOutletContext()
+  const authors = useSelector(state => state.authors.authors)
 
   return (
     <div>

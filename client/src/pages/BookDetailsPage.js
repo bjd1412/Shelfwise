@@ -9,7 +9,7 @@ import DeleteBookButton from "../components/BookDeleteButton";
 
 function BookDetailsPage () {
 
-    const {authors} = useOutletContext()
+    const authors = useSelector(state => state.authors.authors)
     const {bookId} = useParams()
 
 

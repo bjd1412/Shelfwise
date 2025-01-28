@@ -1,10 +1,10 @@
 import React from "react";
-import { useOutletContext } from "react-router-dom";
+import { useSelector } from "react-redux";
 import List from "../components/List";
 import AddGenre from "../components/AddGenre";
 
 function Genres () {
-    const {genres} = useOutletContext()
+  const genres = useSelector(state => state.genres.genres)
 
     
       return (

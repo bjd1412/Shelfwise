@@ -1,10 +1,11 @@
 import React from "react";
-import { useOutletContext, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import AddBorrow from "../components/AddBorrow";
 
 function PatronDetailsPage() {
 
-    const {patrons} = useOutletContext()
+    const patrons = useSelector(state => state.patrons.patrons)
     const {patronId} = useParams()
 
     const patron = patrons.find(patron => patron.id === parseInt(patronId))

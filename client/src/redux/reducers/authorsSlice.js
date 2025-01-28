@@ -21,7 +21,7 @@ const authorsSlice = createSlice({
             const { authorId, bookId } = action.payload;
             const author = state.authors.find((auth) => auth.id === authorId);
             if (author) {
-              author.books = author.books.filter((book) => book.id !== bookId); // Remove the book from the author's books list
+              author.books = author.books.filter((book) => book.id !== bookId);
             }}
     },
 });
