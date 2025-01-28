@@ -222,3 +222,50 @@ select {
   color: #fa3333;
   font-size: small;
 }
+
+
+.Main {
+  padding: 20px;
+  max-width: 50%;
+}
+
+.Main h1 {
+  margin-bottom: 5px;
+}
+
+.Main span {
+  font-size: 18px;
+  color: #666;
+  margin-left: -10px; /* adjust this value to bring the email closer to the name */
+}
+
+.Main ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.Main ul > li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.Main ul > li:last-child {
+  border-bottom: none;
+}
+
+.Main ul > li div {
+  margin-bottom: 10px;
+}
+
+.Main ul > li div strong {
+  font-weight: bold;
+  color: #333;
+}
+
+.Main ul > li div:last-child {
+  margin-bottom: 0;
+}

@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from flask_restful import Resource
 from config import app, db, api
 from models import Author, Book, Genre, Borrowing, Patron
+from sqlalchemy.orm import joinedload
 
 
 

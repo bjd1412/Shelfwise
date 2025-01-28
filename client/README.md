@@ -1,70 +1,43 @@
-# Getting Started with Create React App
+# Welcome To Writer's Room
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An application enabling users to read, write, and share stories and poems, providing a creative platform for showcasing and exploring works.
 
-## Available Scripts
+#### Features
 
-In the project directory, you can run:
+- Create a portfolio of your own literary works. 
+- Navigate an easy to use interface to explore literary works made by other creators.
+- Create literary works of your own to be shared amongst the community.
+- Comment and express your thoughts about other users literary work.
 
-### `npm start`
+## How To Use
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+##### Create Account
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- First you create your username and password. Then you are in. Very simple and easy. <br/>If you wish to just view works, you can skip this step . However, in order to comment, you must be logged in.
+![ReferenceGif](/gifs/CWrite.gif)
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+##### Explore
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Click the Explore tab to browse user poems and stories.
+![ReferenceGif](/gifs/EWrite.gif)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+##### Write 
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- To create your own work, click the Write tab after signing in, and create your own literary masterpiece!
+![ReferenceGif](/gifs/Write-VEED.gif)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+##### Edit Your Work
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- If you ever want to add or edit your work, you would first navigate to the Account Tab. Then you would go to your story, and click the "Edit" tab. 
+![ReferenceGif](/gifs/EditW.gif)
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+##### Comment
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- If you would like to share how you feel about someones literary work, or just comment under a post, you must first be logged in. Then you would click on the comment box at the bottom of every story, enter your comment, and click the "comment" button. 
+![ReferenceGif](/gifs/ComWrite.gif)

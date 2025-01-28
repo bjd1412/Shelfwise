@@ -24,23 +24,29 @@ function PatronDetailsPage() {
         
         <div className="Main">
             <AddBorrow/>
-          <h1>{patron.name}'s Borrowings</h1>
-          <ul>
+            <div>
+            <h1>{patron.name}</h1>
+            <span>{patron.email}</span>
+            </div>
+
+          <h4>Borrowings</h4>
+
+                    <ul>
             {borrowings.length === 0 ? (
-              <li>No borrowings found for this patron.</li>
+                <li>No borrowings found for this patron.</li>
             ) : (
-              borrowings.map(borrowing => (
-                <div key={borrowing.id}>
-                  <div><strong>Title:</strong> {borrowing.book.title}</div>
-                  <div><strong>Borrow Date:</strong> {new Date(borrowing.borrow_date).toLocaleDateString()}</div>
-                  <div><strong>Due Date:</strong> {new Date(borrowing.due_date).toLocaleDateString()}</div>
-                  {borrowing.return_date && (
+                borrowings.map(borrowing => (
+                <li key={borrowing.id}>
+                    <div><strong>Title:</strong> {borrowing.book.title}</div>
+                    <div><strong>Borrow Date:</strong> {new Date(borrowing.borrow_date).toLocaleDateString()}</div>
+                    <div><strong>Due Date:</strong> {new Date(borrowing.due_date).toLocaleDateString()}</div>
+                    {borrowing.return_date && (
                     <div><strong>Return Date:</strong> {new Date(borrowing.return_date).toLocaleDateString()}</div>
-                  )}
-                </div>
-              ))
+                    )}
+                </li>
+                ))
             )}
-          </ul>
+            </ul>
         </div>
       );
     }
