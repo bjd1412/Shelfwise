@@ -49,7 +49,7 @@ const AddBorrow = () => {
       {isModalVisible && (
         <div className="modal-overlay" onClick={handleCloseModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3 className="modal-title">Add a New Borrow</h3>
+        
 
             {formError && (
               <div className="error-notification">

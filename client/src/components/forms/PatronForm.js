@@ -20,7 +20,7 @@ function PatronForm({ onSubmit, isLoading, error }) {
 
   return (
     <div>
-      <h3>Add a New Patron</h3>
+      <h3>Add New Patron</h3>
       {error && (
           <div className="error-notification">
             <span className="error-icon">&#x2191;</span>

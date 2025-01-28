@@ -57,7 +57,7 @@ function BookFormPage() {
 
   return (
     <div className="Main">
-      <h1>{bookId ? "Edit Book" : "Add New Book"}</h1>
+      
       <BookForm
         authors={authorsList}
         genres={genresList}

@@ -36,7 +36,7 @@
 
 .add-author-button {
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #252525;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -58,7 +58,7 @@
 }
 
 .modal-content {
-  background-color: #afaaaa;
+  background-color: #f0f0f0;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -150,7 +150,7 @@
 }
 
 .textfield-container .textfield-error-message {
-  color: red !important;  /* Force red color for the error message */
+  color: red !important; 
   margin-top: 0.25rem;
   font-size: 0.875rem;
   display: block;
@@ -197,7 +197,7 @@
 }
 
 input, select {
-  width: 100%;
+  width: 95%;
   padding: 0.5rem;
   margin-top: 0.5rem;
   border: 1px solid #ccc;
@@ -206,4 +206,19 @@ input, select {
 
 select {
   padding-right: 2rem; 
+}
+
+
+.google-docs-textarea {
+  width: 95%;
+  height: 200px;
+  padding: 10px; 
+  font-size: 16px; 
+  resize: vertical; 
+  overflow-y: auto; 
+}
+
+.formik-error {
+  color: #fa3333;
+  font-size: small;
 }

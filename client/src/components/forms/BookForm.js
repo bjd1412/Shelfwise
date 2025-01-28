@@ -26,7 +26,7 @@ function BookForm({ authors, genres, onSubmit, initialValues }) {
             return (
               <>
                 <TextField name="title" label="Title" formik={formik} />
-                <TextField name="summary" label="Summary" type="textarea" formik={formik} />
+                <TextField name="summary" label="Summary" type="textarea" formik={formik} rows={10} cols={50}/>
   
                
                 <div>
