@@ -11,7 +11,7 @@ const DeleteBookButton = ({bookId}) => {
   
     const handleDelete = () => {
       if (window.confirm("Are you sure you want to delete this book?")) {
-        dispatch(deleteBook(bookId)) // Pass only bookId
+        dispatch(deleteBook(bookId)) 
           .then(() => {           
             if (authorId) {
               navigate(`/authors/${authorId}/books`);

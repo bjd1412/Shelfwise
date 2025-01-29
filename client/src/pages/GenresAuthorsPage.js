@@ -14,7 +14,7 @@ function GenresAuthorsPage() {
     return <div>Loading...</div>; 
   }
 
-  const authors = genre.authors || []; // Add a default value if authors is undefined
+  const authors = genre.authors || [];
 
   const uniqueAuthors = Array.from(
     new Map(authors.map((author) => [author.id, author])).values()
