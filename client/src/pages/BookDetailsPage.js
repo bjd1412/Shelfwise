@@ -28,7 +28,7 @@ function BookDetailsPage () {
             <DeleteBookButton bookId={bookId}/>    
             <h1>{bookDetails.title}</h1>        
             <p>{bookDetails.summary}</p>
-            {bookDetails.genre && <span>{bookDetails.genre.name}</span>}
+            {bookDetails.genre && <span className="Main">{bookDetails.genre.name}</span>}
         </div>
     );    
 

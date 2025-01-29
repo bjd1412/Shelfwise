@@ -1,43 +1,57 @@
-# Welcome To Writer's Room
+# Welcome To Shelfwise
 
-An application enabling users to read, write, and share stories and poems, providing a creative platform for showcasing and exploring works.
+An application enabling users to store information about authors, genres, books, patrons, and the patron's borrowing history
+
+## How To Install
+
+Step 1: Clone the Shelfwise  repository into your desired folder
+
+Step 2: Navigate to the Shelfwise directory in your console
+
+Step 3: Use "npm install" in the client folder. 
+
+Step 4: Type "python app.py" in the server folder, and use "npm start" in the client folder of Shelfwise.
+
+Step 5 Navigate to your localhost in your web browser.
 
 #### Features
 
-- Create a portfolio of your own literary works. 
-- Navigate an easy to use interface to explore literary works made by other creators.
-- Create literary works of your own to be shared amongst the community.
-- Comment and express your thoughts about other users literary work.
+- Store authors, authors' books, and their genre
+-  Store information about Patrons, as well as their borrowing history
+- Edit and delete information about an authors books
 
-## How To Use
 
-##### Create Account
+##### Add an Author
 
-- First you create your username and password. Then you are in. Very simple and easy. <br/>If you wish to just view works, you can skip this step . However, in order to comment, you must be logged in.
-![ReferenceGif](/gifs/CWrite.gif)
+- Navigate to authors using the Authors tab and click "add author". Then submit the author name.
+![ReferenceGif](/src/imgs/gifs/AddAuthor.gif)
 
 
 
-##### Explore
+##### Add a Patron
 
-- Click the Explore tab to browse user poems and stories.
-![ReferenceGif](/gifs/EWrite.gif)
+- Navigate to patrons using the Patrons tab. Click on "Add Patron" and submit the necessary patron information.
+![ReferenceGif](/src/imgs/gifs/AddPatron.gif)
 
 
 
 
-##### Write 
+##### Add a Genre
 
-- To create your own work, click the Write tab after signing in, and create your own literary masterpiece!
-![ReferenceGif](/gifs/Write-VEED.gif)
+- Navigate to existing genres using the Genres tab. Click "Add Genre" and submit the genre name you would like to add.
+![ReferenceGif](/src/imgs/gifs/AddGenre.gif)
 
-##### Edit Your Work
+##### Add a Book
 
-- If you ever want to add or edit your work, you would first navigate to the Account Tab. Then you would go to your story, and click the "Edit" tab. 
-![ReferenceGif](/gifs/EditW.gif)
+- Navigate to authors using the Authors tab. Choose the author of the book you would like to add. Then click the "Add Book" button, and submit the necessary book information.
+![ReferenceGif](/src/imgs/gifs/AddBook.gif)
+
+##### Edit/Delete a Book
+- Navigate to authors using the Authors tab and click on the author of the desired book. Then click on the desired book. To delete the book, click the "delete" button, and click "Yes" when prompted. To edit the book, click edit, and re enter the desired information for that book.
+![ReferenceGif](/src/imgs/gifs/EditDeleteBook.gif)
 
 
-##### Comment
+##### Add a Borrowing to a Batron
 
-- If you would like to share how you feel about someones literary work, or just comment under a post, you must first be logged in. Then you would click on the comment box at the bottom of every story, enter your comment, and click the "comment" button. 
-![ReferenceGif](/gifs/ComWrite.gif)
+- Navigate to Patrons using the Patron tab. Click on the desired patron that you would like to add a borrowing to. Click on the "Add Borrowing" button, and submit the necessary information.
+![ReferenceGif](/src/imgs/gifs/AddBorrow.gif)
