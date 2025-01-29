@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import React from "react";
 import "./Navbar.css"
-import Shelfwise from "../imgs/Shelf_Wise.png"
+
 
 function NavBar() {
 

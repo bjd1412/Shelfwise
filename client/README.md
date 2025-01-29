@@ -24,14 +24,13 @@ Step 5 Navigate to your localhost in your web browser.
 ##### Add an Author
 
 - Navigate to authors using the Authors tab and click "add author". Then submit the author name.
-![ReferenceGif](/src/imgs/gifs/AddAuthor.gif)
-
+![ReferenceGif](/src/components/imgs/gifs/AddAuthor.gif)
 
 
 ##### Add a Patron
 
 - Navigate to patrons using the Patrons tab. Click on "Add Patron" and submit the necessary patron information.
-![ReferenceGif](/src/imgs/gifs/AddPatron.gif)
+![ReferenceGif](/src/components/imgs/gifs/AddPatron.gif)
 
 
 
@@ -39,7 +38,7 @@ Step 5 Navigate to your localhost in your web browser.
 ##### Add a Genre
 
 - Navigate to existing genres using the Genres tab. Click "Add Genre" and submit the genre name you would like to add.
-![ReferenceGif](/src/imgs/gifs/AddGenre.gif)
+![ReferenceGif](/src/components/imgs/gifs/AddGenre.gif)
 
 ##### Add a Book
 
@@ -48,10 +47,10 @@ Step 5 Navigate to your localhost in your web browser.
 
 ##### Edit/Delete a Book
 - Navigate to authors using the Authors tab and click on the author of the desired book. Then click on the desired book. To delete the book, click the "delete" button, and click "Yes" when prompted. To edit the book, click edit, and re enter the desired information for that book.
-![ReferenceGif](/src/imgs/gifs/EditDeleteBook.gif)
+![ReferenceGif](/src/components/imgs/gifs/EditDeleteBook.gif)
 
 
 ##### Add a Borrowing to a Batron
 
 - Navigate to Patrons using the Patron tab. Click on the desired patron that you would like to add a borrowing to. Click on the "Add Borrowing" button, and submit the necessary information.
-![ReferenceGif](/src/imgs/gifs/AddBorrow.gif)
+![ReferenceGif](/src/components/imgs/gifs/AddBorrow.gif)

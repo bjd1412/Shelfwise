@@ -2,12 +2,11 @@ import './App.css';
 import React, { useEffect } from "react";
 import { Outlet } from 'react-router-dom'; 
 import NavBar from './components/NavBar';
-import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { fetchPatrons } from './redux/actions/patronsAction';
 import { fetchGenres } from './redux/actions/genresAction';
 import { fetchAuthors } from './redux/actions/authorsActions';
-import Shelfwise from "./imgs/Shelf_Wise.png"
+import Shelfwise from "./components/imgs/Shelf_Wise.png"
 
 
 function App() {
